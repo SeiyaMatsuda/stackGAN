@@ -32,7 +32,7 @@ def model_run(opts):
     data = np.array([np.load(d) for d in opts.data])
     # 生成に必要な乱数
     latent_size = opts.latent_size
-    z = torch.randn(4, latent_size)
+    z = torch.randn(4, latent_size * 4 * 4)
     #単語IDの変換
     ID = {key:idx+1 for idx, key in enumerate(opts.w2v_vocab)}
     weights = np.array(list(opts.w2v_vocab.values()))
@@ -45,13 +45,13 @@ def model_run(opts):
         if stage == 1:
             D_model = STAGE1_D(imp_num=weights.shape[0], char_num=opts.char_num, device=device).to(device)
             G_model = STAGE1_G(weights, latent_size=latent_size, char_num=opts.char_num, device=device).to(device)
-            G_model.apply(weights_init)
+            #G_model.apply(weights_init)
 
         elif stage == 2:
             D_model = STAGE2_D(imp_num=weights.shape[0], char_num=opts.char_num, device=device).to(device)
             Stage1_G = STAGE1_G(weights, latent_size=latent_size, char_num=opts.char_num, device=device).to(device)
             G_model = STAGE2_G(Stage1_G, weights, latent_size=latent_size, char_num=opts.char_num, device=device).to(device)
-            G_model.apply(weights)
+            #G_model.apply(weights)
             G_model.STAGE1_G.load_state_dict(final_param)
         G_model_para = []
         for p in G_model.parameters():
@@ -63,6 +63,7 @@ def model_run(opts):
         G_optimizer = torch.optim.Adam(G_model_para, lr=opts.g_lr, betas=(0, 0.99))
 
         if opts.device == torch.device('cuda'):
+            print('aaa')
             G_model = nn.DataParallel(G_model)
             D_model = nn.DataParallel(D_model)
 
