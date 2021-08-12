@@ -120,7 +120,7 @@ class STAGE1_G(nn.Module):
 class STAGE1_D(nn.Module):
     def __init__(self, imp_num=1574, char_num=26, device=torch.device("cuda")):
         super(STAGE1_D, self).__init__()
-        self.df_dim = 512
+        self.df_dim = 256
         self.char_dim = char_num
         self.imp_dim = imp_num
         self.ef_dim = self.char_dim
