@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4dc5b754-9a9e-4646-8a7e-9d6a95787f08" name="デフォルト変更リスト" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1wFZydrlxRFSWLG0OtrqlZuoUWv" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_MARK_IGNORED_FILES_AS_EXCLUDED" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="LIFont" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4dc5b754-9a9e-4646-8a7e-9d6a95787f08" name="デフォルト変更リスト" comment="" />
+      <created>1628056552878</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1628056552878</updated>
+    </task>
+    <task id="LOCAL-00001" summary="stack GAN">
+      <created>1628066809007</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1628066809007</updated>
+    </task>
+    <task id="LOCAL-00002" summary="マルチラベル学習によるPGGAN&#10;分類器の層を減らす">
+      <created>1628226328219</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1628226328219</updated>
+    </task>
+    <task id="LOCAL-00003" summary="マルチラベル学習によるPGGAN&#10;分類器の層を減らす&#10;revgrad削除">
+      <created>1628238017614</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1628238017614</updated>
+    </task>
+    <task id="LOCAL-00004" summary="マルチラベル学習によるPGGAN&#10;分類器の層を減らす&#10;revgrad削除">
+      <created>1628238742498</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1628238742498</updated>
+    </task>
+    <task id="LOCAL-00005" summary="PGGAN&#10;以下が主な変更点&#10;・CALayerを変更">
+      <created>1628240739368</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1628240739368</updated>
+    </task>
+    <task id="LOCAL-00006" summary="CAlayerを削除">
+      <created>1628317738703</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1628317738703</updated>
+    </task>
+    <task id="LOCAL-00007" summary="CAlayerを削除">
+      <created>1628319905723</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1628319905723</updated>
+    </task>
+    <task id="LOCAL-00008" summary="CAlayerを削除">
+      <created>1628320307691</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1628320307691</updated>
+    </task>
+    <task id="LOCAL-00009" summary="changed resstep = 5000">
+      <created>1628506168930</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1628506168930</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="stack GAN" />
+    <MESSAGE value="マルチラベル学習によるPGGAN&#10;分類器の層を減らす" />
+    <MESSAGE value="マルチラベル学習によるPGGAN&#10;分類器の層を減らす&#10;revgrad削除" />
+    <MESSAGE value="PGGAN&#10;以下が主な変更点&#10;・CALayerを変更" />
+    <MESSAGE value="CAlayerを削除" />
+    <MESSAGE value="changed resstep = 5000" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed resstep = 5000" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2499" y="64" width="824" height="986" key="CommitChangelistDialog2" timestamp="1628506168887">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2499" y="64" width="824" height="986" key="CommitChangelistDialog2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628506168887" />
+    <state x="4485" y="281" width="619" height="525" key="FileChooserDialogImpl" timestamp="1628056774383">
+      <screen x="3840" y="0" width="1920" height="1080" />
+    </state>
+    <state x="4485" y="281" width="619" height="525" key="FileChooserDialogImpl/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@3840.0.1920.1080" timestamp="1628056774383" />
+    <state x="2670" y="450" width="491" height="213" key="Github.CreateGistDialog" timestamp="1628776304088">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2670" y="450" width="491" height="213" key="Github.CreateGistDialog/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628776304088" />
+    <state width="1821" height="279" key="GridCell.Tab.0.bottom" timestamp="1628779830990">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1821" height="279" key="GridCell.Tab.0.bottom/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628779830990" />
+    <state width="1821" height="279" key="GridCell.Tab.0.center" timestamp="1628779830990">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1821" height="279" key="GridCell.Tab.0.center/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628779830990" />
+    <state width="1821" height="279" key="GridCell.Tab.0.left" timestamp="1628779830990">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1821" height="279" key="GridCell.Tab.0.left/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628779830990" />
+    <state width="1821" height="279" key="GridCell.Tab.0.right" timestamp="1628779830990">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1821" height="279" key="GridCell.Tab.0.right/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628779830990" />
+    <state width="1821" height="286" key="GridCell.Tab.1.bottom" timestamp="1628779511982">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1821" height="286" key="GridCell.Tab.1.bottom/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628779511982" />
+    <state width="1821" height="286" key="GridCell.Tab.1.center" timestamp="1628779511982">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1821" height="286" key="GridCell.Tab.1.center/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628779511982" />
+    <state width="1821" height="286" key="GridCell.Tab.1.left" timestamp="1628779511982">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1821" height="286" key="GridCell.Tab.1.left/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628779511982" />
+    <state width="1821" height="286" key="GridCell.Tab.1.right" timestamp="1628779511982">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1821" height="286" key="GridCell.Tab.1.right/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628779511982" />
+    <state x="2369" y="175" width="1022" height="737" key="SettingsEditor" timestamp="1628524155807">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2369" y="175" width="1022" height="737" key="SettingsEditor/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628524155807" />
+    <state x="4289" y="175" width="1022" height="737" key="SettingsEditor/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@3840.0.1920.1080" timestamp="1628056784300" />
+    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2" timestamp="1628506172917">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628506172917" />
+    <state width="924" height="526" key="XDebugger.FullValuePopup" timestamp="1628762108494">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="924" height="526" key="XDebugger.FullValuePopup/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628762108494" />
+    <state x="2457" y="214" width="908" height="685" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1628692683585">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2457" y="214" width="908" height="685" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628692683585" />
+    <state x="2674" y="331" width="474" height="458" key="refactoring.ChangeSignatureDialog" timestamp="1628682362637">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2674" y="331" width="474" height="458" key="refactoring.ChangeSignatureDialog/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628682362637" />
+    <state x="2547" y="259" width="736" height="678" key="search.everywhere.popup" timestamp="1628747444717">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2547" y="259" width="736" height="678" key="search.everywhere.popup/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628747444717" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/models/PGmodel.py</url>
+          <line>131</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/trainer/train.py</url>
+          <line>86</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>61</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
