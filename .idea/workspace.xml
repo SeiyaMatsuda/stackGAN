@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4dc5b754-9a9e-4646-8a7e-9d6a95787f08" name="デフォルト変更リスト" comment="" />
+    <list default="true" id="4dc5b754-9a9e-4646-8a7e-9d6a95787f08" name="デフォルト変更リスト" comment="">
+      <change beforePath="$PROJECT_DIR$/options.py" beforeDir="false" afterPath="$PROJECT_DIR$/options.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -128,7 +130,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628793970885</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="changed resstep = 5000">
+      <created>1628794141327</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1628794141327</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -141,10 +150,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="changed resstep = 5000" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2499" y="64" width="824" height="986" key="CommitChangelistDialog2" timestamp="1628793970765">
+    <state x="2499" y="64" width="824" height="986" key="CommitChangelistDialog2" timestamp="1628794141302">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2499" y="64" width="824" height="986" key="CommitChangelistDialog2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628793970765" />
+    <state x="2499" y="64" width="824" height="986" key="CommitChangelistDialog2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628794141302" />
     <state x="4485" y="281" width="619" height="525" key="FileChooserDialogImpl" timestamp="1628056774383">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
@@ -190,10 +199,10 @@
     </state>
     <state x="2369" y="175" width="1022" height="737" key="SettingsEditor/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628524155807" />
     <state x="4289" y="175" width="1022" height="737" key="SettingsEditor/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@3840.0.1920.1080" timestamp="1628056784300" />
-    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2" timestamp="1628793977554">
+    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2" timestamp="1628794293659">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628793977554" />
+    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628794293659" />
     <state width="924" height="526" key="XDebugger.FullValuePopup" timestamp="1628762108494">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
