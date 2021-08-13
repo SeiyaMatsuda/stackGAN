@@ -69,8 +69,6 @@ def model_run(opts):
 
         D_TF_loss_list = []
         G_TF_loss_list = []
-        D_ch_loss_list = []
-        G_ch_loss_list = []
         D_cl_loss_list = []
         G_cl_loss_list = []
         real_acc_list = []
@@ -109,8 +107,6 @@ def model_run(opts):
             G_TF_loss_list.append(check_point["G_epoch_TF_losses"])
             D_cl_loss_list.append(check_point["D_epoch_cl_losses"])
             G_cl_loss_list.append(check_point["G_epoch_cl_losses"])
-            D_ch_loss_list.append(check_point["D_epoch_ch_losses"])
-            G_ch_loss_list.append(check_point["G_epoch_ch_losses"])
             real_acc_list.append(check_point["epoch_real_acc"])
             fake_acc_list.append(check_point["epoch_fake_acc"])
 
@@ -118,8 +114,6 @@ def model_run(opts):
              'G_TF_loss': G_TF_loss_list,
              'D_class_loss': D_cl_loss_list,
              'G_class_loss': G_cl_loss_list,
-             'D_char_loss': D_ch_loss_list,
-             'G_char_loss': G_ch_loss_list
                        }
 
             accuracy = {'real_acc':real_acc_list,
@@ -135,8 +129,6 @@ def model_run(opts):
             print(f'\tLoss: {check_point["G_epoch_TF_losses"]:.4f}(Generator_TF)')
             print(f'\tLoss: {check_point["D_epoch_cl_losses"]:.4f}(Discriminator_class)')
             print(f'\tLoss: {check_point["G_epoch_cl_losses"]:.4f}(Generator_class)')
-            print(f'\tLoss: {check_point["D_epoch_ch_losses"]:.4f}(Discriminator_char)')
-            print(f'\tLoss: {check_point["G_epoch_ch_losses"]:.4f}(Generator_char)')
             print(f'\tacc: {check_point["epoch_real_acc"]:.4f}(real_acc)')
             print(f'\tacc: {check_point["epoch_fake_acc"]:.4f}(fake_acc)')
             if (epoch + 1) % 1 == 0:
