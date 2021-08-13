@@ -19,9 +19,9 @@ def upBlock(in_planes, out_planes):
         conv3x3(in_planes, out_planes),
         nn.BatchNorm2d(out_planes),
         nn.ReLU(True),
-        conv3x3(out_planes, out_planes),
-        nn.BatchNorm2d(out_planes),
-        nn.ReLU(True),
+        # conv3x3(out_planes, out_planes),
+        # nn.BatchNorm2d(out_planes),
+        # nn.ReLU(True),
     )
     return block
 
