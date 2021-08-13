@@ -91,7 +91,7 @@ def train(param):
         G_class_loss = mse_loss(F.sigmoid(D_fake_class), gen_label)
         # CAにおける損失
         G_ca_loss = ca_loss(mu, logvar)
-        G_loss = G_TF_loss + G_char_loss + G_class_loss + G_ca_loss
+        G_loss = G_TF_loss + G_char_loss + G_class_loss + G_ca_loss * 2
         G_optimizer.zero_grad()
         G_loss.backward()
         G_optimizer.step()
