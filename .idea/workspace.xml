@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="4dc5b754-9a9e-4646-8a7e-9d6a95787f08" name="デフォルト変更リスト" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/stack_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/stack_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/options.py" beforeDir="false" afterPath="$PROJECT_DIR$/options.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trainer/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/train.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -14,6 +33,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="ProjectId" id="1wFZydrlxRFSWLG0OtrqlZuoUWv" />
   <component name="ProjectViewState">
@@ -175,28 +195,7 @@
       <option name="project" value="LOCAL" />
       <updated>1628842438189</updated>
     </task>
-    <task id="LOCAL-00017" summary="StackGAN&#10;➡論文実装に合わせることで割とうまく言った">
-      <created>1628861240228</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1628861240228</updated>
-    </task>
-    <task id="LOCAL-00018" summary="StackGAN&#10;➡論文実装に合わせることで割とうまく言った">
-      <created>1628861271586</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1628861271586</updated>
-    </task>
-    <task id="LOCAL-00019" summary="StackGAN&#10;➡論文実装に合わせることで割とうまく言った">
-      <created>1628861284502</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1628861284502</updated>
-    </task>
-    <option name="localTasksCounter" value="20" />
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -209,6 +208,17 @@
       </list>
     </option>
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="stack GAN" />
     <MESSAGE value="マルチラベル学習によるPGGAN&#10;分類器の層を減らす" />
@@ -218,18 +228,17 @@
     <MESSAGE value="changed resstep = 5000" />
     <MESSAGE value="discriminatorをaverage pooling" />
     <MESSAGE value="discriminatorをaverage pooling&#10;Discriminatorにspectre norm" />
-    <MESSAGE value="StackGAN&#10;➡論文実装に合わせることで割とうまく言った" />
-    <option name="LAST_COMMIT_MESSAGE" value="StackGAN&#10;➡論文実装に合わせることで割とうまく言った" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2499" y="64" width="824" height="986" key="CommitChangelistDialog2" timestamp="1628861284479">
+    <state x="2499" y="64" width="824" height="986" key="CommitChangelistDialog2" timestamp="1628867094161">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2499" y="64" width="824" height="986" key="CommitChangelistDialog2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628861284479" />
-    <state x="2092" y="127" width="1648" height="853" key="DiffContextDialog" timestamp="1628833669351">
+    <state x="2499" y="64" width="824" height="986" key="CommitChangelistDialog2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628867094161" />
+    <state x="2148" y="137" width="1648" height="853" key="DiffContextDialog" timestamp="1628867815699">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2092" y="127" width="1648" height="853" key="DiffContextDialog/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628833669351" />
+    <state x="2148" y="137" width="1648" height="853" key="DiffContextDialog/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628867815699" />
     <state x="4485" y="281" width="619" height="525" key="FileChooserDialogImpl" timestamp="1628056774383">
       <screen x="3840" y="0" width="1920" height="1080" />
     </state>
@@ -238,38 +247,38 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2670" y="450" width="491" height="213" key="Github.CreateGistDialog/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628776304088" />
-    <state width="1821" height="279" key="GridCell.Tab.0.bottom" timestamp="1628865657977">
+    <state width="1821" height="286" key="GridCell.Tab.0.bottom" timestamp="1628872994105">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1821" height="279" key="GridCell.Tab.0.bottom/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628865657977" />
-    <state width="1821" height="279" key="GridCell.Tab.0.center" timestamp="1628865657977">
+    <state width="1821" height="286" key="GridCell.Tab.0.bottom/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628872994105" />
+    <state width="1821" height="286" key="GridCell.Tab.0.center" timestamp="1628872994105">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1821" height="279" key="GridCell.Tab.0.center/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628865657977" />
-    <state width="1821" height="279" key="GridCell.Tab.0.left" timestamp="1628865657977">
+    <state width="1821" height="286" key="GridCell.Tab.0.center/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628872994105" />
+    <state width="1821" height="286" key="GridCell.Tab.0.left" timestamp="1628872994105">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1821" height="279" key="GridCell.Tab.0.left/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628865657977" />
-    <state width="1821" height="279" key="GridCell.Tab.0.right" timestamp="1628865657977">
+    <state width="1821" height="286" key="GridCell.Tab.0.left/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628872994105" />
+    <state width="1821" height="286" key="GridCell.Tab.0.right" timestamp="1628872994105">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1821" height="279" key="GridCell.Tab.0.right/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628865657977" />
-    <state width="1821" height="284" key="GridCell.Tab.1.bottom" timestamp="1628848248075">
+    <state width="1821" height="286" key="GridCell.Tab.0.right/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628872994105" />
+    <state width="1821" height="286" key="GridCell.Tab.1.bottom" timestamp="1628872994105">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1821" height="284" key="GridCell.Tab.1.bottom/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628848248075" />
-    <state width="1821" height="284" key="GridCell.Tab.1.center" timestamp="1628848248075">
+    <state width="1821" height="286" key="GridCell.Tab.1.bottom/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628872994105" />
+    <state width="1821" height="286" key="GridCell.Tab.1.center" timestamp="1628872994105">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1821" height="284" key="GridCell.Tab.1.center/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628848248075" />
-    <state width="1821" height="284" key="GridCell.Tab.1.left" timestamp="1628848248075">
+    <state width="1821" height="286" key="GridCell.Tab.1.center/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628872994105" />
+    <state width="1821" height="286" key="GridCell.Tab.1.left" timestamp="1628872994105">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1821" height="284" key="GridCell.Tab.1.left/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628848248075" />
-    <state width="1821" height="284" key="GridCell.Tab.1.right" timestamp="1628848248075">
+    <state width="1821" height="286" key="GridCell.Tab.1.left/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628872994105" />
+    <state width="1821" height="286" key="GridCell.Tab.1.right" timestamp="1628872994105">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1821" height="284" key="GridCell.Tab.1.right/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628848248075" />
+    <state width="1821" height="286" key="GridCell.Tab.1.right/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628872994105" />
     <state x="2369" y="175" width="1022" height="737" key="SettingsEditor" timestamp="1628524155807">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
@@ -283,18 +292,18 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2713" y="460" width="396" height="194" key="VCS.ChangelistChooser/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628832842647" />
-    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2" timestamp="1628842442396">
+    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2" timestamp="1628867115399">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628842442396" />
+    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628867115399" />
     <state width="924" height="526" key="XDebugger.FullValuePopup" timestamp="1628762108494">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="924" height="526" key="XDebugger.FullValuePopup/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628762108494" />
-    <state x="2092" y="127" width="1648" height="853" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1628832842963">
+    <state x="2092" y="127" width="1648" height="853" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1628867815699">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2092" y="127" width="1648" height="853" key="com.intellij.history.integration.ui.views.FileHistoryDialog/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628832842963" />
+    <state x="2092" y="127" width="1648" height="853" key="com.intellij.history.integration.ui.views.FileHistoryDialog/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628867815699" />
     <state x="2457" y="214" width="908" height="685" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1628692683585">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
@@ -307,10 +316,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2674" y="331" width="474" height="458" key="refactoring.ChangeSignatureDialog/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628682362637" />
-    <state x="2547" y="259" width="736" height="678" key="search.everywhere.popup" timestamp="1628747444717">
+    <state x="2547" y="259" width="736" height="678" key="search.everywhere.popup" timestamp="1628868529636">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2547" y="259" width="736" height="678" key="search.everywhere.popup/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628747444717" />
+    <state x="2547" y="259" width="736" height="678" key="search.everywhere.popup/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628868529636" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -321,14 +330,19 @@
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/trainer/train.py</url>
-          <line>81</line>
-          <option name="timeStamp" value="16" />
+          <url>file://$PROJECT_DIR$/models/stack_model.py</url>
+          <line>264</line>
+          <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>55</line>
-          <option name="timeStamp" value="26" />
+          <url>file://$PROJECT_DIR$/models/stack_model.py</url>
+          <line>265</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/models/stack_model.py</url>
+          <line>266</line>
+          <option name="timeStamp" value="32" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

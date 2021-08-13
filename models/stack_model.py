@@ -56,7 +56,7 @@ class ResBlock(nn.Module):
 
 # ############# Networks for stageI GAN #############
 class STAGE1_G(nn.Module):
-    def __init__(self, weight, latent_size=100, char_num=26, num_dimension=128, attention=False, device=torch.device("cuda")):
+    def __init__(self, weight, latent_size=100, char_num=26, num_dimension=300, attention=False, device=torch.device("cuda")):
         super(STAGE1_G, self).__init__()
         self.char_dim = char_num
         self.gf_dim = 128 * 8
@@ -73,7 +73,7 @@ class STAGE1_G(nn.Module):
         ninput = self.ninput
         # TEXT.DIMENSION -> GAN.CONDITION_DIM
         self.emb_layer = ImpEmbedding(self.weight, deepsets=False, device=self.device)
-        self.CA_layer = Conditioning_Augumentation(300, self.c_dim, device=self.device)
+        # self.CA_layer = Conditioning_Augumentation(300, self.c_dim, device=self.device)
 
         self.fc =  nn.Sequential(
             nn.Linear(ninput, ngf * 4 * 4, bias=False),
@@ -93,8 +93,8 @@ class STAGE1_G(nn.Module):
 
 
     def forward(self, noise, y_char, y_imp):
-        y_imp = self.emb_layer(y_imp)
-        c_code, mu, logvar = self.CA_layer(y_imp)
+        c_code = self.emb_layer(y_imp)
+        # c_code, mu, logvar = self.CA_layer(y_imp)
         c_code = torch.cat((noise, c_code, y_char), dim=1)
         h_code = self.fc(c_code)
         h_code = h_code.view(-1, self.gf_dim, 4, 4)
@@ -103,6 +103,7 @@ class STAGE1_G(nn.Module):
         h_code = self.upsample3(h_code)
         # state size 3 x 32 x 32
         fake_img = self.img(h_code)
+        mu, logvar = None, None
         return fake_img, mu, logvar
 
 
@@ -152,7 +153,7 @@ class STAGE1_D(nn.Module):
 
 # ############# Networks for stageII GAN #############
 class STAGE2_G(nn.Module):
-    def __init__(self, STAGE1_G, weight, latent_size=100, char_num=26, num_dimension=128, attention=False, device=torch.device("cuda")):
+    def __init__(self, STAGE1_G, weight, latent_size=100, char_num=26, num_dimension=300, attention=False, device=torch.device("cuda")):
         super(STAGE2_G, self).__init__()
         self.char_dim = char_num
         self.gf_dim = 128
@@ -179,7 +180,7 @@ class STAGE2_G(nn.Module):
         ngf = self.gf_dim
         # TEXT.DIMENSION -> GAN.CONDITION_DIM
         self.emb_layer = ImpEmbedding(self.weight, deepsets=False, device=self.device)
-        self.CA_layer = Conditioning_Augumentation(300, self.c_dim, device=self.device)
+        # self.CA_layer = Conditioning_Augumentation(300, self.c_dim, device=self.device)
 
         # ngf x 32 x 32--> 2ngf ✕ 16 ✕ 16
         self.encoder = nn.Sequential(
@@ -203,12 +204,12 @@ class STAGE2_G(nn.Module):
             nn.Tanh())
 
     def forward(self, noise, y_char, y_imp):
-        _, stage1_img, _, _ = self.STAGE1_G(noise, y_char, y_imp)
+        stage1_img, _, _ = self.STAGE1_G(noise, y_char, y_imp)
         stage1_img = stage1_img.detach()
         encoded_img = self.encoder(stage1_img)
         c_code= self.emb_layer(y_imp)
-        c_code, mu, logvar = self.CA_layer(c_code)
-        c_code = c_code.view(-1, self.imp_dim, 1, 1)
+        # c_code, mu, logvar = self.CA_layer(c_code)
+        c_code = c_code.view(-1, self.c_dim, 1, 1)
         c_code = c_code.repeat(1, 1, 16, 16)
 
         i_c_code = torch.cat([encoded_img, c_code], 1)
@@ -219,6 +220,7 @@ class STAGE2_G(nn.Module):
         h_code = self.upsample2(h_code)
 
         fake_img = self.img(h_code)
+        mu, logvar = None, None
         return fake_img, mu, logvar
 
 
@@ -235,25 +237,29 @@ class STAGE2_D(nn.Module):
         ndf, nef = self.df_dim, self.ef_dim
         self.encode_img = nn.Sequential(
             nn.Conv2d(1 + self.char_dim, ndf, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(ndf * 2),
+            nn.BatchNorm2d(ndf),
             nn.LeakyReLU(0.2, inplace=True),
             # state size. (ndf) x 32 x 32
             nn.Conv2d(ndf, ndf * 2, 4, 2, 1, bias=False),
             nn.BatchNorm2d(ndf * 2),
             nn.LeakyReLU(0.2, inplace=True),
-            # state size (ndf*2) x 8 x 8
+            # state size (ndf*2) x 16 x 16
             nn.Conv2d(ndf*2, ndf * 4, 4, 2, 1, bias=False),
             nn.BatchNorm2d(ndf * 4),
+            nn.LeakyReLU(0.2, inplace=True),
+            # state size (ndf * 4) x 8 x 8)
+            nn.Conv2d(ndf * 4, ndf * 8, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ndf * 8),
             nn.LeakyReLU(0.2, inplace=True)
-            # state size (ndf * 4) x 4 x 4)
+            # state size (ndf * 8) x 4 x 4)
         )
         self.layer_TF = nn.Sequential(
-            nn.Conv2d(ndf * 4, 1, kernel_size=4, stride=4))
+            nn.Conv2d(ndf * 8, 1, kernel_size=4, stride=4))
 
         self.layer_imp = nn.Sequential(
             nn.Flatten(),
             nn.Dropout(0.5),
-            nn.Linear(ndf * 4 * 4 * 4, self.imp_dim))
+            nn.Linear(ndf * 8 * 4 * 4, self.imp_dim))
 
     def forward(self, image, y_char):
         y_char = y_char.view(y_char.size(0), y_char.size(1), 1, 1).repeat(1, 1, image.size(2), image.size(3))

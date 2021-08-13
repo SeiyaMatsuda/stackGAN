@@ -83,8 +83,7 @@ def train(param):
         # 印象語分類のロス
         G_class_loss = mse_loss(F.sigmoid(D_fake_class), gen_label)
         # CAにおける損失
-        G_ca_loss = ca_loss(mu, logvar)
-        G_loss = G_TF_loss + G_class_loss + G_ca_loss * 2
+        G_loss = G_TF_loss + G_class_loss
         G_optimizer.zero_grad()
         G_loss.backward()
         G_optimizer.step()
@@ -145,9 +144,9 @@ def train(param):
     G_running_cl_loss /= len(DataLoader)
     real_acc = sum(real_acc)/len(real_acc)
     fake_acc = sum(fake_acc)/len(fake_acc)
-    check_point = {'G_net': G_model.state_dict(),
+    check_point = {'G_net': G_model.module.state_dict(),
                    'G_optimizer': G_optimizer.state_dict(),
-                   'D_net': D_model.state_dict(),
+                   'D_net': D_model.module.state_dict(),
                    'D_optimizer': D_optimizer.state_dict(),
                    'D_epoch_TF_losses': D_running_TF_loss,
                    'G_epoch_TF_losses': G_running_TF_loss,
