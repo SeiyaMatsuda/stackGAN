@@ -143,7 +143,7 @@ class STAGE1_D(nn.Module):
             nn.Linear(ndf * 4 * 4 * 4, self.imp_dim))
 
 
-    def forward(self, image):
+    def forward(self, image, ):
         img_embedding = self.encode_img(image)
         x_TF = self.layer_TF(img_embedding)
         x_char = self.layer_char(img_embedding)
