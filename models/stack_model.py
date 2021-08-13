@@ -120,28 +120,27 @@ class STAGE1_D(nn.Module):
     def define_module(self):
         ndf, nef = self.df_dim, self.ef_dim
         self.encode_img = nn.Sequential(
-            conv3x3(1, ndf//4),
-            nn.BatchNorm2d(ndf // 4),
+            nn.utils.spectral_norm(conv3x3(1, ndf//4)),
+            # nn.BatchNorm2d(ndf // 4),
             nn.LeakyReLU(0.2, inplace=True),
             nn.AdaptiveAvgPool2d((ndf // 4, ndf // 4)),
             # state size. (ndf//4) x 16 x 16
-            conv3x3(ndf//4, ndf//2),
-            nn.BatchNorm2d(ndf//2),
+            nn.utils.spectral_norm(conv3x3(ndf//4, ndf//2)),
+            # nn.BatchNorm2d(ndf//2),
             nn.LeakyReLU(0.2, inplace=True),
             nn.AdaptiveAvgPool2d((ndf//2, ndf//2)),
             # state size (ndf//2) x 8 x 8
-            conv3x3(ndf//2, ndf),
-            nn.BatchNorm2d(ndf),
+            nn.utils.spectral_norm(conv3x3(ndf//2, ndf)),
+            # nn.BatchNorm2d(ndf),
             nn.LeakyReLU(0.2, inplace=True),
             nn.AdaptiveAvgPool2d((ndf, ndf))
             # state size ndf x  4 x 4
         )
 
         self.layer_TF_char = nn.Sequential(
-            conv3x3(ndf, ndf),
-            nn.BatchNorm2d(ndf),
+            nn.utils.spectral_norm(nn.Conv2d(ndf, ndf, kernel_size=4, stride=1)),
+            # nn.BatchNorm2d(ndf),
             nn.LeakyReLU(0.2, inplace=True),
-            nn.AdaptiveAvgPool2d((ndf, ndf))
         )
 
         self.layer_TF = nn.Sequential(
