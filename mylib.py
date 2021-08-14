@@ -145,6 +145,7 @@ def learning_curve(dict, path, title ='learning_curve', x_label = 'epoch', y_lab
     plt.close()
 def mean_average_precision(y_pred, y_true):
     average_precisions = []
+    device = y_pred.device
     # クラス単位でAPを計算
     y_true = y_true.T
     y_pred = y_pred.T
@@ -152,10 +153,10 @@ def mean_average_precision(y_pred, y_true):
         sort_idx = torch.argsort(y_pred[i], descending=True)
         y_true_sorted = y_true[i][sort_idx]
         cumsum = torch.cumsum(y_true_sorted, dim=0)
-        precision = cumsum / torch.arange(1, 1 + y_true[i].shape[0])
+        precision = cumsum / torch.arange(1, 1 + y_true[i].shape[0]).to(device)
         # 代表点
         mask = (y_true_sorted==1)
-        average_precisions.append(precision[mask].mean())
+        average_precisions.append(precision[mask].mean().item())
     return sum(average_precisions)/len(y_true), average_precisions
 def kl_divergence(input, target, activation = None):
     entropy = -(target[target != 0] * target[target != 0].log()).sum()

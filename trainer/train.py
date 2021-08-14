@@ -1,5 +1,5 @@
 import torch.nn.functional as F
-from mylib import compute_gradient_penalty, Multilabel_OneHot, KlLoss, visualizer, FocalLoss, CALoss
+from mylib import *
 from options import *
 import numpy as np
 import gc
@@ -19,23 +19,19 @@ def gradient_penalty(netD, real, fake, char_class_oh, batch_size, gamma=1):
 
 def train(param):
     # paramの変数
+    opts = param["opts"]
     stage = param["stage"]
-    G_model = param["G_model"]
-    D_model = param["D_model"]
-    dataset = param["dataset"]
-    DataLoader = param["DataLoader"]
+    test_z = param["z"]
     label_weight = param['label_weight']
     pos_weight = param['pos_weight']
-    device = param['device']
-    ID = param['ID']
-    char_num = param['char_num']
-    test_z = param["z"]
+    DataLoader = param["DataLoader"]
+    G_model = param["G_model"]
+    D_model = param["D_model"]
     G_optimizer = param["G_optimizer"]
     D_optimizer = param["D_optimizer"]
-    Tensor = param["Tensor"]
-    latent_size = param['latent_size']
-    iter_start = param["iter_start"]
     log_dir = param['log_dir']
+    iter_start = param["iter_start"]
+    ID = param['ID']
     writer = param['writer']
     ##training start
     G_model.train()
@@ -48,12 +44,13 @@ def train(param):
     G_running_cl_loss = 0
     real_acc = []
     fake_acc = []
+    class_mAP = []
     #Dataloaderの定義
     databar = tqdm.tqdm(DataLoader)
     #バッチごとの計算
     #マルチクラス分類
-    bce_loss = torch.nn.BCEWithLogitsLoss(weight=label_weight, pos_weight=pos_weight).to(device)
-    mse_loss = torch.nn.MSELoss().to(device)
+    bce_loss = torch.nn.BCEWithLogitsLoss(weight=label_weight, pos_weight=pos_weight).to(opts.device)
+    mse_loss = torch.nn.MSELoss().to(opts.device)
     ca_loss = CALoss()
 
     for batch_idx, samples in enumerate(databar):
@@ -64,14 +61,14 @@ def train(param):
         batch_len = real_img.size(0)
         #デバイスの移
         real_img,  char_class = \
-            real_img.to(device), char_class.to(device)
+            real_img.to(opts.device), char_class.to(opts.device)
         # 文字クラスのone-hotベクトル化
-        char_class_oh = torch.eye(char_num)[char_class].to(device)
+        char_class_oh = torch.eye(opts.char_num)[char_class].to(opts.device)
         # 印象語のベクトル化
-        labels_oh = Multilabel_OneHot(labels, len(ID), normalize=False).to(device)
+        labels_oh = Multilabel_OneHot(labels, len(ID), normalize=False).to(opts.device)
         # training Generator
         #画像の生成に必要なノイズ作成
-        z = torch.randn(batch_len, latent_size).to(device)
+        z = torch.randn(batch_len, opts.latent_size).to(opts.device)
         ##画像の生成に必要な印象語ラベルを取得
         _, D_real_class = D_model(real_img, char_class_oh)
         gen_label = F.sigmoid(D_real_class.detach())
@@ -84,9 +81,10 @@ def train(param):
             # 印象語分類のロス
             G_class_loss = mse_loss(F.sigmoid(D_fake_class), gen_label)
             # CAにおける損失
-            G_loss = G_TF_loss + G_class_loss * 0.2
+            G_loss = G_TF_loss + G_class_loss
         else:
             G_loss = G_TF_loss
+            G_class_loss = torch.tensor([0])
         G_optimizer.zero_grad()
         G_loss.backward()
         G_optimizer.step()
@@ -104,18 +102,19 @@ def train(param):
         D_fake_loss = torch.mean(D_fake_TF)
         gp_loss = gradient_penalty(D_model, real_img.data, fake_img.data, char_class_oh, real_img.shape[0])
         loss_drift = (D_real_TF ** 2).mean()
-
         #Wasserstein lossの計算
         D_TF_loss = D_fake_loss + D_real_loss + 10 * gp_loss
         # 印象語分類のロス
         D_class_loss = bce_loss(D_real_class, labels_oh)
+        #印象語分類のmAP
+        C_mAP = mean_average_precision(torch.sigmoid(D_real_class), labels_oh)[1]
         D_loss = D_TF_loss + D_class_loss + 0.001 * loss_drift
         D_optimizer.zero_grad()
         D_loss.backward()
         D_optimizer.step()
         D_running_TF_loss += D_TF_loss.item()
         D_running_cl_loss += D_class_loss.item()
-
+        class_mAP.append(C_mAP)
         ##caliculate accuracy
         real_pred = 1 * (torch.sigmoid(D_real_TF) > 0.5).detach().cpu()
         fake_pred = 1 * (torch.sigmoid(D_fake_TF) > 0.5).detach().cpu()
@@ -138,13 +137,14 @@ def train(param):
             test_emb_label = [[ID[key]] for key in test_label]
             label = Multilabel_OneHot(test_emb_label, len(ID), normalize=False)
             save_path = os.path.join(log_dir, 'img_iter_%05d_%02d✕%02d.png' % (iter, real_img.size(2), real_img.size(3)))
-            visualizer(save_path, G_model, test_z, char_num, label, device)
+            visualizer(save_path, G_model, test_z, opts.char_num, label, opts.device)
 
 
     D_running_TF_loss /= len(DataLoader)
     G_running_TF_loss /= len(DataLoader)
     D_running_cl_loss /= len(DataLoader)
     G_running_cl_loss /= len(DataLoader)
+    class_mAP = np.array(class_mAP).mean(axis=0)
     real_acc = sum(real_acc)/len(real_acc)
     fake_acc = sum(fake_acc)/len(fake_acc)
     check_point = {'G_net': G_model.module.state_dict(),
@@ -155,6 +155,7 @@ def train(param):
                    'G_epoch_TF_losses': G_running_TF_loss,
                    'D_epoch_cl_losses': D_running_cl_loss,
                    'G_epoch_cl_losses': G_running_cl_loss,
+                   'epoch_cl_mAP': class_mAP,
                    'epoch_real_acc': real_acc,
                   'epoch_fake_acc':fake_acc,
                    "iter_finish":iter,

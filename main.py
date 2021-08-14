@@ -5,6 +5,7 @@ from dataset import *
 from torchvision.utils import make_grid, save_image
 from models.stack_model import *
 from torch.utils.tensorboard import SummaryWriter
+import pandas as pd
 from torch.autograd import detect_anomaly
 
 def make_logdir(path):
@@ -31,26 +32,24 @@ def model_run(opts):
     #各種必要なディレクトリの作成
     data = np.array([np.load(d) for d in opts.data])
     # 生成に必要な乱数
-    latent_size = opts.latent_size
-    z = torch.randn(4, latent_size)
+    z = torch.randn(4, opts.latent_size)
     #単語IDの変換
     ID = {key:idx+1 for idx, key in enumerate(opts.w2v_vocab)}
     weights = np.array(list(opts.w2v_vocab.values()))
-    device = opts.device
     #stage1のあとに２を学習
     for stage in [1, 2]:
         log_dir, check_point_dir, output_dir, weight_dir, logs_GAN, learning_log_dir = \
             make_logdir(os.path.join(opts.root, opts.dt_now, f'stage_{stage}'))
         #モデルを定義
-        if stage == 2:
-            D_model = STAGE1_D(imp_num=weights.shape[0], char_num=opts.char_num, device=device).to(device)
-            G_model = STAGE1_G(weights, latent_size=latent_size, char_num=opts.char_num, device=device).to(device)
+        if stage == 1:
+            D_model = STAGE1_D(imp_num=weights.shape[0], char_num=opts.char_num, device=opts.device).to(opts.device)
+            G_model = STAGE1_G(weights, latent_size=opts.latent_size, char_num=opts.char_num, device=opts.device).to(opts.device)
             G_model.apply(weights_init)
 
-        elif stage == 1:
-            D_model = STAGE2_D(imp_num=weights.shape[0], char_num=opts.char_num, device=device).to(device)
-            Stage1_G = STAGE1_G(weights, latent_size=latent_size, char_num=opts.char_num, device=device).to(device)
-            G_model = STAGE2_G(Stage1_G, weights, latent_size=latent_size, char_num=opts.char_num, device=device).to(device)
+        elif stage == 2:
+            D_model = STAGE2_D(imp_num=weights.shape[0], char_num=opts.char_num, device=opts.device).to(opts.device)
+            Stage1_G = STAGE1_G(weights, latent_size=opts.latent_size, char_num=opts.char_num, device=opts.device).to(opts.device)
+            G_model = STAGE2_G(Stage1_G, weights, latent_size=opts.latent_size, char_num=opts.char_num, device=opts.device).to(opts.device)
             G_model.apply(weights_init)
             G_model.STAGE1_G.load_state_dict(final_param)
         G_model_para = []
@@ -72,6 +71,7 @@ def model_run(opts):
         G_cl_loss_list = []
         real_acc_list = []
         fake_acc_list = []
+        class_mAP_df = pd.DataFrame(columns=tuple(ID.keys()))
 
         transform = Transform()
         #training param
@@ -82,24 +82,21 @@ def model_run(opts):
         #データセットを準備
         dataset = Myfont_dataset2(data, opts.impression_word_list, ID, char_num=opts.char_num,
                                   transform=transform)
-        bs = opts.batch_size
         label_weight = 1 / dataset.weight
         pos_weight = (dataset.weight.sum() - dataset.weight) / dataset.weight
 
-        DataLoader = torch.utils.data.DataLoader(dataset, batch_size=bs, shuffle=True,
+        DataLoader = torch.utils.data.DataLoader(dataset, batch_size=opts.batch_size, shuffle=True,
                                                  collate_fn=collate_fn, drop_last=True)
 
         for epoch in range(epochs):
             start_time = time.time()
-            param = {'stage': stage, 'D_num_critic': opts.D_num_critic,
-                     "dataset": dataset, "z": z, "label_weight": label_weight,
-                     'pos_weight': pos_weight,
-                     'DataLoader': DataLoader, 'latent_size': latent_size,
+            param = {'opts':opts, 'stage': stage,
+                     "z": z, "label_weight": label_weight,
+                     'pos_weight': pos_weight, 'DataLoader': DataLoader,
                      'G_model': G_model, 'D_model': D_model,
                      'G_optimizer': G_optimizer, 'D_optimizer': D_optimizer,
-                     'latent_size': latent_size, 'char_num': opts.char_num, 'log_dir': logs_GAN,
-                     'device': opts.device, "iter_start": iter_start,
-                     'Tensor': opts.Tensor, 'LongTensor': opts.LongTensor, 'ID': ID, 'writer': writer}
+                     'log_dir': logs_GAN, "iter_start": iter_start,
+                     'ID': ID, 'writer': writer}
             check_point = train(param)
             iter_start = check_point["iter_finish"]+1
             D_TF_loss_list.append(check_point["D_epoch_TF_losses"])
@@ -108,7 +105,7 @@ def model_run(opts):
             G_cl_loss_list.append(check_point["G_epoch_cl_losses"])
             real_acc_list.append(check_point["epoch_real_acc"])
             fake_acc_list.append(check_point["epoch_fake_acc"])
-
+            class_mAP_df.loc[epoch, :] = check_point["epoch_cl_mAP"]
             history = {'D_TF_loss': D_TF_loss_list,
              'G_TF_loss': G_TF_loss_list,
              'D_class_loss': D_cl_loss_list,
@@ -133,10 +130,12 @@ def model_run(opts):
             if (epoch + 1) % 1 == 0:
                 learning_curve(history, os.path.join(learning_log_dir, 'loss_epoch_{}'.format(epoch + 1)))
                 learning_curve(accuracy, os.path.join(learning_log_dir, 'acc_epoch_{}'.format(epoch + 1)))
+
             # モデル保存のためのcheckpointファイルを作成
             if (epoch + 1) % 5 == 0:
                 torch.save(check_point, os.path.join(check_point_dir, 'check_point_epoch_%d.pth' % (epoch)))
         writer.close()
+        class_mAP_df.to_csv(os.path.join(learning_log_dir, 'class_mAP.csv'))
         final_param = check_point['G_net']
     return D_TF_loss_list, G_TF_loss_list, D_cl_loss_list, G_cl_loss_list
 

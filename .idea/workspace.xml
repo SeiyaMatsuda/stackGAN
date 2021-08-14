@@ -19,11 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4dc5b754-9a9e-4646-8a7e-9d6a95787f08" name="デフォルト変更リスト" comment="">
+    <list default="true" id="4dc5b754-9a9e-4646-8a7e-9d6a95787f08" name="デフォルト変更リスト" comment="StackGAN&#10;➡G_class_loss:iter&gt;2000 λ=0.2&#10;  Discriminator add Dropout2d&#10;  mAPの計算を追加">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/stack_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/stack_model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mylib.py" beforeDir="false" afterPath="$PROJECT_DIR$/mylib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/options.py" beforeDir="false" afterPath="$PROJECT_DIR$/options.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trainer/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/train.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -202,7 +202,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628873464786</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="StackGAN&#10;➡G_class_loss:iter&gt;2000 λ=0.2&#10;  Discriminator add Dropout2d">
+      <created>1628925395546</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1628925395546</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -236,13 +243,14 @@
     <MESSAGE value="discriminatorをaverage pooling" />
     <MESSAGE value="discriminatorをaverage pooling&#10;Discriminatorにspectre norm" />
     <MESSAGE value="StackGAN&#10;とりあえず完成したやつ" />
-    <option name="LAST_COMMIT_MESSAGE" value="StackGAN&#10;とりあえず完成したやつ" />
+    <MESSAGE value="StackGAN&#10;➡G_class_loss:iter&gt;2000 λ=0.2&#10;  Discriminator add Dropout2d" />
+    <option name="LAST_COMMIT_MESSAGE" value="StackGAN&#10;➡G_class_loss:iter&gt;2000 λ=0.2&#10;  Discriminator add Dropout2d" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2499" y="64" width="824" height="986" key="CommitChangelistDialog2" timestamp="1628873464746">
+    <state x="2635" y="94" width="824" height="986" key="CommitChangelistDialog2" timestamp="1628931871151">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2499" y="64" width="824" height="986" key="CommitChangelistDialog2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628873464746" />
+    <state x="2635" y="94" width="824" height="986" key="CommitChangelistDialog2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628931871151" />
     <state x="2148" y="137" width="1648" height="853" key="DiffContextDialog" timestamp="1628867815699">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
@@ -255,38 +263,38 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2670" y="450" width="491" height="213" key="Github.CreateGistDialog/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628776304088" />
-    <state width="1821" height="287" key="GridCell.Tab.0.bottom" timestamp="1628919267992">
+    <state width="1821" height="279" key="GridCell.Tab.0.bottom" timestamp="1628931951157">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1821" height="287" key="GridCell.Tab.0.bottom/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628919267992" />
-    <state width="1821" height="287" key="GridCell.Tab.0.center" timestamp="1628919267992">
+    <state width="1821" height="279" key="GridCell.Tab.0.bottom/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628931951157" />
+    <state width="1821" height="279" key="GridCell.Tab.0.center" timestamp="1628931951156">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1821" height="287" key="GridCell.Tab.0.center/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628919267992" />
-    <state width="1821" height="287" key="GridCell.Tab.0.left" timestamp="1628919267992">
+    <state width="1821" height="279" key="GridCell.Tab.0.center/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628931951156" />
+    <state width="1821" height="279" key="GridCell.Tab.0.left" timestamp="1628931951156">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1821" height="287" key="GridCell.Tab.0.left/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628919267992" />
-    <state width="1821" height="287" key="GridCell.Tab.0.right" timestamp="1628919267992">
+    <state width="1821" height="279" key="GridCell.Tab.0.left/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628931951156" />
+    <state width="1821" height="279" key="GridCell.Tab.0.right" timestamp="1628931951157">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1821" height="287" key="GridCell.Tab.0.right/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628919267992" />
-    <state width="1821" height="287" key="GridCell.Tab.1.bottom" timestamp="1628919267992">
+    <state width="1821" height="279" key="GridCell.Tab.0.right/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628931951157" />
+    <state width="1821" height="288" key="GridCell.Tab.1.bottom" timestamp="1628929509595">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1821" height="287" key="GridCell.Tab.1.bottom/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628919267992" />
-    <state width="1821" height="287" key="GridCell.Tab.1.center" timestamp="1628919267992">
+    <state width="1821" height="288" key="GridCell.Tab.1.bottom/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628929509595" />
+    <state width="1821" height="288" key="GridCell.Tab.1.center" timestamp="1628929509595">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1821" height="287" key="GridCell.Tab.1.center/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628919267992" />
-    <state width="1821" height="287" key="GridCell.Tab.1.left" timestamp="1628919267992">
+    <state width="1821" height="288" key="GridCell.Tab.1.center/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628929509595" />
+    <state width="1821" height="288" key="GridCell.Tab.1.left" timestamp="1628929509595">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1821" height="287" key="GridCell.Tab.1.left/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628919267992" />
-    <state width="1821" height="287" key="GridCell.Tab.1.right" timestamp="1628919267992">
+    <state width="1821" height="288" key="GridCell.Tab.1.left/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628929509595" />
+    <state width="1821" height="288" key="GridCell.Tab.1.right" timestamp="1628929509595">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1821" height="287" key="GridCell.Tab.1.right/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628919267992" />
+    <state width="1821" height="288" key="GridCell.Tab.1.right/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628929509595" />
     <state x="2369" y="175" width="1022" height="737" key="SettingsEditor" timestamp="1628524155807">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
@@ -354,8 +362,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>53</line>
+          <line>52</line>
           <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/mylib.py</url>
+          <line>159</line>
+          <option name="timeStamp" value="37" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
