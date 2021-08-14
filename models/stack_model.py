@@ -125,10 +125,12 @@ class STAGE1_D(nn.Module):
             # state size. (ndf) x 16 x 16
             nn.Conv2d(ndf, ndf * 2, 4, 2, 1, bias=False),
             nn.BatchNorm2d(ndf * 2),
+            nn.Dropout2d(0.2),
             nn.LeakyReLU(0.2, inplace=True),
             # state size (ndf*2) x 8 x 8
             nn.Conv2d(ndf*2, ndf * 4, 4, 2, 1, bias=False),
             nn.BatchNorm2d(ndf * 4),
+            nn.Dropout2d(0.5),
             nn.LeakyReLU(0.2, inplace=True)
             # state size (ndf * 4) x 4 x 4)
         )
@@ -139,7 +141,6 @@ class STAGE1_D(nn.Module):
 
         self.layer_imp = nn.Sequential(
             nn.Flatten(),
-            nn.Dropout(0.5),
             nn.Linear(ndf * 4 * 4 * 4, self.imp_dim))
 
 
@@ -242,14 +243,17 @@ class STAGE2_D(nn.Module):
             # state size. (ndf) x 32 x 32
             nn.Conv2d(ndf, ndf * 2, 4, 2, 1, bias=False),
             nn.BatchNorm2d(ndf * 2),
+            nn.Dropout2d(0.2),
             nn.LeakyReLU(0.2, inplace=True),
             # state size (ndf*2) x 16 x 16
             nn.Conv2d(ndf*2, ndf * 4, 4, 2, 1, bias=False),
             nn.BatchNorm2d(ndf * 4),
+            nn.Dropout2d(0.5),
             nn.LeakyReLU(0.2, inplace=True),
             # state size (ndf * 4) x 8 x 8)
             nn.Conv2d(ndf * 4, ndf * 8, 4, 2, 1, bias=False),
             nn.BatchNorm2d(ndf * 8),
+            nn.Dropout2d(0.5),
             nn.LeakyReLU(0.2, inplace=True)
             # state size (ndf * 8) x 4 x 4)
         )
@@ -258,7 +262,6 @@ class STAGE2_D(nn.Module):
 
         self.layer_imp = nn.Sequential(
             nn.Flatten(),
-            nn.Dropout(0.5),
             nn.Linear(ndf * 8 * 4 * 4, self.imp_dim))
 
     def forward(self, image, y_char):

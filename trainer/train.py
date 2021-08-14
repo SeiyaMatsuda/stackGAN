@@ -80,10 +80,13 @@ def train(param):
         D_fake_TF,  D_fake_class = D_model(fake_img, char_class_oh)
         # Wasserstein lossの計算
         G_TF_loss = -torch.mean(D_fake_TF)
-        # 印象語分類のロス
-        G_class_loss = mse_loss(F.sigmoid(D_fake_class), gen_label)
-        # CAにおける損失
-        G_loss = G_TF_loss + G_class_loss
+        if iter>=20000:
+            # 印象語分類のロス
+            G_class_loss = mse_loss(F.sigmoid(D_fake_class), gen_label)
+            # CAにおける損失
+            G_loss = G_TF_loss + G_class_loss * 0.2
+        else:
+            G_loss = G_TF_loss
         G_optimizer.zero_grad()
         G_loss.backward()
         G_optimizer.step()

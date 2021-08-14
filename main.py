@@ -42,12 +42,12 @@ def model_run(opts):
         log_dir, check_point_dir, output_dir, weight_dir, logs_GAN, learning_log_dir = \
             make_logdir(os.path.join(opts.root, opts.dt_now, f'stage_{stage}'))
         #モデルを定義
-        if stage == 1:
+        if stage == 2:
             D_model = STAGE1_D(imp_num=weights.shape[0], char_num=opts.char_num, device=device).to(device)
             G_model = STAGE1_G(weights, latent_size=latent_size, char_num=opts.char_num, device=device).to(device)
             G_model.apply(weights_init)
 
-        elif stage == 2:
+        elif stage == 1:
             D_model = STAGE2_D(imp_num=weights.shape[0], char_num=opts.char_num, device=device).to(device)
             Stage1_G = STAGE1_G(weights, latent_size=latent_size, char_num=opts.char_num, device=device).to(device)
             G_model = STAGE2_G(Stage1_G, weights, latent_size=latent_size, char_num=opts.char_num, device=device).to(device)
@@ -63,7 +63,6 @@ def model_run(opts):
         G_optimizer = torch.optim.Adam(G_model_para, lr=opts.g_lr, betas=(0, 0.99))
 
         if opts.device == torch.device('cuda'):
-            print('aaa')
             G_model = nn.DataParallel(G_model)
             D_model = nn.DataParallel(D_model)
 

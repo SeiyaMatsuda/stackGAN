@@ -151,12 +151,12 @@ def mean_average_precision(y_pred, y_true):
     for i in range(len(y_true)):
         sort_idx = torch.argsort(y_pred[i], descending=True)
         y_true_sorted = y_true[i][sort_idx]
-        cumsum = torch.cumsum(y_true_sorted, dim = 0)
+        cumsum = torch.cumsum(y_true_sorted, dim=0)
         precision = cumsum / torch.arange(1, 1 + y_true[i].shape[0])
         # 代表点
         mask = (y_true_sorted==1)
         average_precisions.append(precision[mask].mean())
-    return sum(average_precisions)/len(y_true)
+    return sum(average_precisions)/len(y_true), average_precisions
 def kl_divergence(input, target, activation = None):
     entropy = -(target[target != 0] * target[target != 0].log()).sum()
     if activation == 'softmax':
