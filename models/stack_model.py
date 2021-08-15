@@ -269,4 +269,4 @@ class STAGE2_D(nn.Module):
         img_embedding = self.encode_img(torch.cat((image, y_char), axis=1))
         x_TF = self.layer_TF(img_embedding)
         x_imp = self.layer_imp(img_embedding)
-        return x_TF, x_imp
+        return torch.squeeze(x_TF),  torch.squeeze(x_imp)
