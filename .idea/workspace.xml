@@ -19,10 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4dc5b754-9a9e-4646-8a7e-9d6a95787f08" name="デフォルト変更リスト" comment="StackGAN&#10;➡G_class_loss:iter&gt;2000 λ=0.2&#10;  Discriminator add Dropout2d&#10;  mAPの計算を追加">
+    <list default="true" id="4dc5b754-9a9e-4646-8a7e-9d6a95787f08" name="デフォルト変更リスト" comment="StackGAN&#10;➡G_class_loss:iter&gt;10000 λ=1&#10;  Discriminator Dropout2d&#10; iteration=100k&#10;  mAPの計算を追加">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mylib.py" beforeDir="false" afterPath="$PROJECT_DIR$/mylib.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/options.py" beforeDir="false" afterPath="$PROJECT_DIR$/options.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trainer/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/train.py" afterDir="false" />
     </list>
@@ -43,7 +42,7 @@
   <component name="PropertiesComponent">
     <property name="ASKED_MARK_IGNORED_FILES_AS_EXCLUDED" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Imp2Font" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
@@ -209,7 +208,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628925395546</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="StackGAN&#10;➡G_class_loss:iter&gt;2000 λ=1&#10;  Discriminator add Dropout2d&#10;  mAPの計算を追加">
+      <created>1628932544253</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1628932544253</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -244,20 +250,22 @@
     <MESSAGE value="discriminatorをaverage pooling&#10;Discriminatorにspectre norm" />
     <MESSAGE value="StackGAN&#10;とりあえず完成したやつ" />
     <MESSAGE value="StackGAN&#10;➡G_class_loss:iter&gt;2000 λ=0.2&#10;  Discriminator add Dropout2d" />
-    <option name="LAST_COMMIT_MESSAGE" value="StackGAN&#10;➡G_class_loss:iter&gt;2000 λ=0.2&#10;  Discriminator add Dropout2d" />
+    <MESSAGE value="StackGAN&#10;➡G_class_loss:iter&gt;2000 λ=1&#10;  Discriminator add Dropout2d&#10;  mAPの計算を追加" />
+    <option name="LAST_COMMIT_MESSAGE" value="StackGAN&#10;➡G_class_loss:iter&gt;2000 λ=1&#10;  Discriminator add Dropout2d&#10;  mAPの計算を追加" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2635" y="94" width="824" height="986" key="CommitChangelistDialog2" timestamp="1628931871151">
+    <state x="2635" y="94" width="824" height="986" key="CommitChangelistDialog2" timestamp="1629014919534">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2635" y="94" width="824" height="986" key="CommitChangelistDialog2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628931871151" />
+    <state x="2635" y="94" width="824" height="986" key="CommitChangelistDialog2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1629014919534" />
     <state x="2148" y="137" width="1648" height="853" key="DiffContextDialog" timestamp="1628867815699">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2148" y="137" width="1648" height="853" key="DiffContextDialog/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628867815699" />
-    <state x="4485" y="281" width="619" height="525" key="FileChooserDialogImpl" timestamp="1628056774383">
-      <screen x="3840" y="0" width="1920" height="1080" />
+    <state x="2565" y="281" width="619" height="525" key="FileChooserDialogImpl" timestamp="1628940639413">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
+    <state x="2565" y="281" key="FileChooserDialogImpl/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628940639413" />
     <state x="4485" y="281" width="619" height="525" key="FileChooserDialogImpl/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@3840.0.1920.1080" timestamp="1628056774383" />
     <state x="2670" y="450" width="491" height="213" key="Github.CreateGistDialog" timestamp="1628776304088">
       <screen x="1920" y="0" width="1920" height="1080" />
@@ -308,10 +316,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2713" y="460" width="396" height="194" key="VCS.ChangelistChooser/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628832842647" />
-    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2" timestamp="1628873470151">
+    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2" timestamp="1628932548810">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628873470151" />
+    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628932548810" />
     <state width="924" height="526" key="XDebugger.FullValuePopup" timestamp="1628762108494">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>

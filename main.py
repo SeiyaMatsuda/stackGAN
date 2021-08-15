@@ -127,9 +127,9 @@ def model_run(opts):
             print(f'\tLoss: {check_point["G_epoch_cl_losses"]:.4f}(Generator_class)')
             print(f'\tacc: {check_point["epoch_real_acc"]:.4f}(real_acc)')
             print(f'\tacc: {check_point["epoch_fake_acc"]:.4f}(fake_acc)')
-            if (epoch + 1) % 1 == 0:
-                learning_curve(history, os.path.join(learning_log_dir, 'loss_epoch_{}'.format(epoch + 1)))
-                learning_curve(accuracy, os.path.join(learning_log_dir, 'acc_epoch_{}'.format(epoch + 1)))
+            # if (epoch + 1) % 1 == 0:
+            #     learning_curve(history, os.path.join(learning_log_dir, 'loss_epoch_{}'.format(epoch + 1)))
+            #     learning_curve(accuracy, os.path.join(learning_log_dir, 'acc_epoch_{}'.format(epoch + 1)))
 
             # モデル保存のためのcheckpointファイルを作成
             if (epoch + 1) % 5 == 0:

@@ -77,7 +77,7 @@ def train(param):
         D_fake_TF,  D_fake_class = D_model(fake_img, char_class_oh)
         # Wasserstein lossの計算
         G_TF_loss = -torch.mean(D_fake_TF)
-        if iter>=20000:
+        if iter >= opts.classifier_decay:
             # 印象語分類のロス
             G_class_loss = mse_loss(F.sigmoid(D_fake_class), gen_label)
             # CAにおける損失
@@ -138,7 +138,6 @@ def train(param):
             label = Multilabel_OneHot(test_emb_label, len(ID), normalize=False)
             save_path = os.path.join(log_dir, 'img_iter_%05d_%02d✕%02d.png' % (iter, real_img.size(2), real_img.size(3)))
             visualizer(save_path, G_model, test_z, opts.char_num, label, opts.device)
-
 
     D_running_TF_loss /= len(DataLoader)
     G_running_TF_loss /= len(DataLoader)

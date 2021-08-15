@@ -13,7 +13,7 @@ def get_parser():
     parser.add_argument('--w2v_dim', type=int, default=300)
     parser.add_argument('--c_dim', type=int, default=128)
     parser.add_argument('--batch_size', type=int, default=512)
-    parser.add_argument('--num_epochs', type=int, default=60)
+    parser.add_argument('--num_epochs', type=int, default=120)
     parser.add_argument('--latent_size', type=int, default=100)
     parser.add_argument('--char_num', type=int, default=26)
     parser.add_argument('--device_count', type=int, default=torch.cuda.device_count())
@@ -24,7 +24,7 @@ def get_parser():
     parser.add_argument('--G_num_critic', type=int, default=1)
     parser.add_argument('--lambda_gp', type=int, default=5)
     parser.add_argument('--num_iterations', type=int, default=100000)
-    parser.add_argument('--num_iterations_decay', type=int, default=100000)
+    parser.add_argument('--classifier_decay', type=int, default=10000)
     parser.add_argument('--dt_now', type =str ,default=str(datetime.datetime.now()))
     cuda = True if torch.cuda.is_available() else False
     parser.add_argument('--device', type=str, default=torch.device("cuda" if cuda else "cpu"))
