@@ -93,7 +93,7 @@ class STAGE1_G(nn.Module):
 
 
     def forward(self, noise, y_char, y_imp):
-        noise1, noise2=torch.split(noise, [self.z_dim, self.c_dim//2])
+        noise1, noise2=torch.split(noise, [self.z_dim, self.c_dim//2], dim=1)
         c_code = self.emb_layer(y_imp)
         c_code, mu, logvar = self.CA_layer(c_code, noise2)
         c_code = torch.cat((noise1, c_code, y_char), dim=1)

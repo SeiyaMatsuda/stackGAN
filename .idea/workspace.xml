@@ -19,10 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4dc5b754-9a9e-4646-8a7e-9d6a95787f08" name="デフォルト変更リスト" comment="">
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/stack_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/stack_model.py" afterDir="false" />
-    </list>
+    <list default="true" id="4dc5b754-9a9e-4646-8a7e-9d6a95787f08" name="デフォルト変更リスト" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -242,7 +239,21 @@
       <option name="project" value="LOCAL" />
       <updated>1629219082795</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="StackGAN&#10;➡G_class_loss:iter&gt;10000 λ=1&#10;  Discriminator Dropout2d&#10;  epoch=120&#10;  mAPの計算を追加&#10;  accuracyの計算を修正&#10;  CAlayerを追加">
+      <created>1629219477571</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1629219477571</updated>
+    </task>
+    <task id="LOCAL-00025" summary="StackGAN&#10;➡G_class_loss:iter&gt;10000 λ=1&#10;  Discriminator Dropout2d&#10;  epoch=120&#10;  mAPの計算を追加&#10;  accuracyの計算を修正&#10;  CAlayerを追加">
+      <created>1629219543227</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1629219543227</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -284,10 +295,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="StackGAN&#10;➡G_class_loss:iter&gt;10000 λ=1&#10;  Discriminator Dropout2d&#10;  epoch=120&#10;  mAPの計算を追加&#10;  accuracyの計算を修正&#10;  CAlayerを追加" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2635" y="94" width="824" height="986" key="CommitChangelistDialog2" timestamp="1629219082724">
+    <state x="2635" y="94" width="824" height="986" key="CommitChangelistDialog2" timestamp="1629219543199">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2635" y="94" width="824" height="986" key="CommitChangelistDialog2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1629219082724" />
+    <state x="2635" y="94" width="824" height="986" key="CommitChangelistDialog2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1629219543199" />
     <state x="2148" y="137" width="1648" height="853" key="DiffContextDialog" timestamp="1628867815699">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
@@ -346,10 +357,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2713" y="460" width="396" height="194" key="VCS.ChangelistChooser/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1628832842647" />
-    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2" timestamp="1629219090862">
+    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2" timestamp="1629219547743">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1629219090862" />
+    <state x="2511" y="288" width="800" height="538" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1629219547743" />
     <state width="924" height="526" key="XDebugger.FullValuePopup" timestamp="1628762108494">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
