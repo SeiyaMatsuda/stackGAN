@@ -181,7 +181,7 @@ class STAGE2_G(nn.Module):
         ngf = self.gf_dim
         # TEXT.DIMENSION -> GAN.CONDITION_DIM
         self.emb_layer = ImpEmbedding(self.weight, deepsets=False, device=self.device)
-        # self.CA_layer = Conditioning_Augumentation(300, self.c_dim, device=self.device)
+        self.CA_layer = Conditioning_Augumentation(300, self.c_dim, device=self.device)
 
         # ngf x 32 x 32--> 2ngf ✕ 16 ✕ 16
         self.encoder = nn.Sequential(
@@ -209,7 +209,7 @@ class STAGE2_G(nn.Module):
         stage1_img = stage1_img.detach()
         encoded_img = self.encoder(stage1_img)
         c_code= self.emb_layer(y_imp)
-        # c_code, mu, logvar = self.CA_layer(c_code)
+        c_code, mu, logvar = self.CA_layer(c_code)
         c_code = c_code.view(-1, self.c_dim, 1, 1)
         c_code = c_code.repeat(1, 1, 16, 16)
 
@@ -221,7 +221,6 @@ class STAGE2_G(nn.Module):
         h_code = self.upsample2(h_code)
 
         fake_img = self.img(h_code)
-        mu, logvar = None, None
         return fake_img, mu, logvar
 
 
