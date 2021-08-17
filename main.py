@@ -43,13 +43,13 @@ def model_run(opts):
         #モデルを定義
         if stage == 1:
             D_model = STAGE1_D(imp_num=weights.shape[0], char_num=opts.char_num, device=opts.device).to(opts.device)
-            G_model = STAGE1_G(weights, latent_size=opts.latent_size, num_dimension=opts.cdim, char_num=opts.char_num, device=opts.device).to(opts.device)
+            G_model = STAGE1_G(weights, latent_size=opts.latent_size, num_dimension=opts.c_dim, char_num=opts.char_num, device=opts.device).to(opts.device)
             G_model.apply(weights_init)
 
         elif stage == 2:
             D_model = STAGE2_D(imp_num=weights.shape[0], char_num=opts.char_num, device=opts.device).to(opts.device)
-            Stage1_G = STAGE1_G(weights, latent_size=opts.latent_size, char_num=opts.char_num, device=opts.device).to(opts.device)
-            G_model = STAGE2_G(Stage1_G, weights, latent_size=opts.latent_size, num_dimension=opts.cdim, char_num=opts.char_num, device=opts.device).to(opts.device)
+            Stage1_G = STAGE1_G(weights, latent_size=opts.latent_size,  num_dimension=opts.c_dim, char_num=opts.char_num, device=opts.device).to(opts.device)
+            G_model = STAGE2_G(Stage1_G, weights, latent_size=opts.latent_size, num_dimension=opts.c_dim, char_num=opts.char_num, device=opts.device).to(opts.device)
             G_model.apply(weights_init)
             G_model.STAGE1_G.load_state_dict(final_param)
         G_model_para = []
