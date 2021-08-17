@@ -73,7 +73,7 @@ class STAGE1_G(nn.Module):
         ninput = self.ninput
         # TEXT.DIMENSION -> GAN.CONDITION_DIM
         self.emb_layer = ImpEmbedding(self.weight, deepsets=False, device=self.device)
-        # self.CA_layer = Conditioning_Augumentation(300, self.c_dim, device=self.device)
+        self.CA_layer = Conditioning_Augumentation(300, self.c_dim, device=self.device)
 
         self.fc =  nn.Sequential(
             nn.Linear(ninput, ngf * 4 * 4, bias=False),
@@ -93,9 +93,10 @@ class STAGE1_G(nn.Module):
 
 
     def forward(self, noise, y_char, y_imp):
+        noise1, noise2=torch.split(noise, [self.z_dim, self.c_dim//2])
         c_code = self.emb_layer(y_imp)
-        # c_code, mu, logvar = self.CA_layer(y_imp)
-        c_code = torch.cat((noise, c_code, y_char), dim=1)
+        c_code, mu, logvar = self.CA_layer(c_code, noise2)
+        c_code = torch.cat((noise1, c_code, y_char), dim=1)
         h_code = self.fc(c_code)
         h_code = h_code.view(-1, self.gf_dim, 4, 4)
         h_code = self.upsample1(h_code)
@@ -103,7 +104,6 @@ class STAGE1_G(nn.Module):
         h_code = self.upsample3(h_code)
         # state size 3 x 32 x 32
         fake_img = self.img(h_code)
-        mu, logvar = None, None
         return fake_img, mu, logvar
 
 

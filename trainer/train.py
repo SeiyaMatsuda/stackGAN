@@ -68,7 +68,7 @@ def train(param):
         labels_oh = Multilabel_OneHot(labels, len(ID), normalize=False).to(opts.device)
         # training Generator
         #画像の生成に必要なノイズ作成
-        z = torch.randn(batch_len, opts.latent_size).to(opts.device)
+        z = torch.randn(batch_len, opts.latent_size + opts.c_dim//2).to(opts.device)
         ##画像の生成に必要な印象語ラベルを取得
         _, D_real_class = D_model(real_img, char_class_oh)
         gen_label = F.sigmoid(D_real_class.detach())
@@ -77,13 +77,14 @@ def train(param):
         D_fake_TF,  D_fake_class = D_model(fake_img, char_class_oh)
         # Wasserstein lossの計算
         G_TF_loss = -torch.mean(D_fake_TF)
+        G_ca_loss = ca_loss(mu, logvar)
         if iter >= opts.classifier_decay:
             # 印象語分類のロス
             G_class_loss = mse_loss(F.sigmoid(D_fake_class), gen_label)
             # CAにおける損失
-            G_loss = G_TF_loss + G_class_loss
+            G_loss = G_TF_loss + G_class_loss + G_ca_loss
         else:
-            G_loss = G_TF_loss
+            G_loss = G_TF_loss + G_ca_loss
             G_class_loss = torch.tensor([0])
         G_optimizer.zero_grad()
         G_loss.backward()

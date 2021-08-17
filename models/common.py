@@ -17,18 +17,14 @@ class Conditioning_Augumentation(nn.Module):
         logvar = x[:, self.output_dim:]
         return mu, logvar
 
-    def reparametrize(self, mu, logvar):
+    def reparametrize(self, mu, logvar, eps):
         std = logvar.mul(0.5).exp_()
-        if self.device == torch.device("cuda"):
-            eps = torch.cuda.FloatTensor(std.size()).normal_()
-        else:
-            eps = torch.FloatTensor(std.size()).normal_()
         eps = Variable(eps)
         return eps.mul(std).add_(mu)
 
-    def forward(self, text_embedding):
+    def forward(self, text_embedding, eps):
         mu, logvar = self.encode(text_embedding)
-        c_code = self.reparametrize(mu, logvar)
+        c_code = self.reparametrize(mu, logvar, eps)
         return c_code, mu, logvar
 class ImpEmbedding(nn.Module):
     def __init__(self, weight, deepsets=False,  num_dimension=300, residual_num=0, required_grad=False, device=torch.device("cuda")):
