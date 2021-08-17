@@ -32,7 +32,7 @@ def model_run(opts):
     #各種必要なディレクトリの作成
     data = np.array([np.load(d) for d in opts.data])
     # 生成に必要な乱数
-    z = torch.randn(4, opts.latent_size + opts.c_dim//2)
+    z = torch.randn(4, opts.latent_size + opts.c_dim)
     #単語IDの変換
     ID = {key:idx+1 for idx, key in enumerate(opts.w2v_vocab)}
     weights = np.array(list(opts.w2v_vocab.values()))

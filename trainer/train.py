@@ -68,7 +68,7 @@ def train(param):
         labels_oh = Multilabel_OneHot(labels, len(ID), normalize=False).to(opts.device)
         # training Generator
         #画像の生成に必要なノイズ作成
-        z = torch.randn(batch_len, opts.latent_size + opts.c_dim//2).to(opts.device)
+        z = torch.randn(batch_len, opts.latent_size + opts.c_dim).to(opts.device)
         ##画像の生成に必要な印象語ラベルを取得
         _, D_real_class = D_model(real_img, char_class_oh)
         gen_label = F.sigmoid(D_real_class.detach())
