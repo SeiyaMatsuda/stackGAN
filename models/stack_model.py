@@ -94,7 +94,7 @@ class STAGE1_G(nn.Module):
     def __init__(self, weight, latent_size=100, char_num=26, num_dimension=300, attention=False, device=torch.device("cuda")):
         super(STAGE1_G, self).__init__()
         self.char_dim = char_num
-        self.gf_dim = 256
+        self.gf_dim = 128 * 8
         self.ninput = latent_size + num_dimension + self.char_dim
         self.c_dim = num_dimension
         self.z_dim = latent_size
@@ -186,7 +186,7 @@ class STAGE2_G(nn.Module):
     def __init__(self, STAGE1_G, weight, latent_size=100, char_num=26, num_dimension=300, attention=False, device=torch.device("cuda")):
         super(STAGE2_G, self).__init__()
         self.char_dim = char_num
-        self.gf_dim = 32
+        self.gf_dim = 128
         self.c_dim = num_dimension
         self.z_dim = latent_size
         self.r_num = 4
