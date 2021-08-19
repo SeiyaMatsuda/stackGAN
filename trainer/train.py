@@ -77,9 +77,9 @@ def train(param):
         ##画像の生成に必要な印象語ラベルを取得
         real_features = D_model(real_img, char_class_oh)
         _, uncond_real_logits_class = nn.parallel.data_parallel(D_model.module.get_uncond_logits, (real_features))
-        # gen_label = torch.sigmoid(uncond_real_logits_class.detach())
+        gen_label = torch.sigmoid(uncond_real_logits_class.detach())
         # 画像を生成
-        fake_img, mu, logvar = G_model(z, char_class_oh, labels_oh)
+        fake_img, mu, logvar = G_model(z, char_class_oh, gen_label)
         # 画像の特徴を抽出
         fake_features = D_model(fake_img, char_class_oh)
         # 画像を識別(uncond, cond)
@@ -93,16 +93,14 @@ def train(param):
         G_ca_loss = ca_loss(mu, logvar)
         # 特定iter以上でクラス分類損失を計算
         # 印象語分類のロス
-        errD_class = mse_loss(torch.sigmoid(fake_logits_class), labels_oh)
-        uncond_errD_class = mse_loss(torch.sigmoid(fake_logits_class), labels_oh)
+        errD_class = mse_loss(torch.sigmoid(fake_logits_class), gen_label)
+        uncond_errD_class = mse_loss(torch.sigmoid(fake_logits_class), gen_label)
         G_class_loss = errD_class + uncond_errD_class
-        # CAにおける損失
         G_TF_loss = errD_fake + uncond_errD_fake
-        G_loss = G_TF_loss + G_class_loss + G_ca_loss
-        # else:
-        #     G_TF_loss = errD_fake + uncond_errD_fake
-        #     G_loss = G_TF_loss + G_ca_loss
-        #     G_class_loss = torch.tensor([0])
+        if iter>=20000:
+            G_loss = G_TF_loss + G_class_loss + G_ca_loss
+        else:
+            G_loss = G_TF_loss + G_ca_loss
         G_optimizer.zero_grad()
         G_loss.backward()
         G_optimizer.step()
@@ -114,9 +112,9 @@ def train(param):
         # 生成用の成約を取得
         real_features = D_model(real_img, char_class_oh)
         uncond_real_logits_TF, uncond_real_logits_class = nn.parallel.data_parallel(D_model.module.get_uncond_logits, (real_features))
-        # gen_label = F.sigmoid(uncond_real_logits_class.detach())
+        gen_label = torch.sigmoid(uncond_real_logits_class.detach())
         #画像を生成
-        fake_img, mu, logvar = G_model(z, char_class_oh, labels_oh)
+        fake_img, mu, logvar = G_model(z, char_class_oh, gen_label)
         #画像から特徴抽出
         fake_features = D_model(fake_img.detach(), char_class_oh)
         # 画像を識別(cond)
@@ -151,8 +149,8 @@ def train(param):
         D_running_cl_loss += D_class_loss.item()
         class_mAP.append(C_mAP)
         ##caliculate accuracy
-        real_pred = 1 * (torch.sigmoid(real_logits_TF) > 0.5).detach().cpu()
-        fake_pred = 1 * (torch.sigmoid(fake_logits_TF) > 0.5).detach().cpu()
+        real_pred = 1 * (real_logits_TF > 0.5).detach().cpu()
+        fake_pred = 1 * (fake_logits_TF > 0.5).detach().cpu()
         real_TF = torch.ones(real_pred.size(0))
         fake_TF = torch.zeros(fake_pred.size(0))
         r_acc = (real_pred == real_TF).float().sum().item()/len(real_pred)
