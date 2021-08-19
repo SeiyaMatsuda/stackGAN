@@ -150,7 +150,7 @@ def train(param):
         class_mAP.append(C_mAP)
         ##caliculate accuracy
         real_pred = 1 * (real_logits_TF > 0.5).detach().cpu()
-        fake_pred = 1 * (fake_logits_TF > 0.5).detach().cpu()
+        fake_pred = 1 * (fake_logits_TF < 0.5).detach().cpu()
         real_TF = torch.ones(real_pred.size(0))
         fake_TF = torch.zeros(fake_pred.size(0))
         r_acc = (real_pred == real_TF).float().sum().item()/len(real_pred)
