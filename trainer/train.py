@@ -4,6 +4,7 @@ from options import *
 import numpy as np
 import gc
 import tqdm
+from torch.autograd import Variable
 import torch.autograd as autograd
 from dataset import *
 def gradient_penalty(netD, real, fake, char_class_oh, batch_size, gamma=1):
@@ -48,18 +49,22 @@ def train(param):
     #Dataloaderの定義
     databar = tqdm.tqdm(DataLoader)
     #バッチごとの計算
-    #マルチクラス分類
+    #損失関数の定義
     bce_loss = torch.nn.BCEWithLogitsLoss(weight=label_weight, pos_weight=pos_weight).to(opts.device)
     mse_loss = torch.nn.MSELoss().to(opts.device)
     ca_loss = CALoss()
-
+    criterion = torch.nn.BCELoss().to(opts.device)
     for batch_idx, samples in enumerate(databar):
+        #ここからが1iter
         real_img, char_class, labels = samples['img_target'], samples['charclass_target'], samples['multi_embed_label_target']
+        #stage似合わせて画像サイズ変更
         if stage == 1:
             real_img = F.adaptive_avg_pool2d(real_img, (32, 32))
-        # バッチの長さを定義
+        # バッチの長さと正解ラベルを定義
         batch_len = real_img.size(0)
-        #デバイスの移
+        real_labels = Variable(torch.FloatTensor(batch_len).fill_(1)).to(opts.device)
+        fake_labels = Variable(torch.FloatTensor(batch_len).fill_(0)).to(opts.device)
+        #デバイスの移行
         real_img,  char_class = \
             real_img.to(opts.device), char_class.to(opts.device)
         # 文字クラスのone-hotベクトル化
@@ -70,20 +75,33 @@ def train(param):
         #画像の生成に必要なノイズ作成
         z = torch.randn(batch_len, opts.latent_size + opts.c_dim).to(opts.device)
         ##画像の生成に必要な印象語ラベルを取得
-        _, D_real_class = D_model(real_img, char_class_oh)
-        gen_label = F.sigmoid(D_real_class.detach())
-        # ２つのノイズの結合
+        real_features = D_model(real_img, char_class_oh)
+        _, uncond_real_logits_class = nn.parallel.data_parallel(D_model.module.get_uncond_logits, (real_features))
+        gen_label = torch.sigmoid(uncond_real_logits_class.detach())
+        # 画像を生成
         fake_img, mu, logvar = G_model(z, char_class_oh, gen_label)
-        D_fake_TF,  D_fake_class = D_model(fake_img, char_class_oh)
-        # Wasserstein lossの計算
-        G_TF_loss = -torch.mean(D_fake_TF)
+        # 画像の特徴を抽出
+        fake_features = D_model(fake_img, char_class_oh)
+        # 画像を識別(uncond, cond)
+        fake_logits_TF, fake_logits_class = nn.parallel.data_parallel(D_model.module.get_cond_logits, (fake_features, mu))
+        uncond_fake_logits_TF, uncond_fake_logits_class = nn.parallel.data_parallel(D_model.module.get_uncond_logits, (fake_features))
+        #condの損失を計算
+        errD_fake = criterion(fake_logits_TF, real_labels)
+        #uncondの損失を計算
+        uncond_errD_fake = criterion(uncond_fake_logits_TF, real_labels)
+        # mu, logvarの過学習を抑制する損失
         G_ca_loss = ca_loss(mu, logvar)
+        # 特定iter以上でクラス分類損失を計算
         if iter >= opts.classifier_decay:
             # 印象語分類のロス
-            G_class_loss = mse_loss(F.sigmoid(D_fake_class), gen_label)
+            errD_class = mse_loss(torch.sigmoid(fake_logits_class), gen_label)
+            uncond_errD_class = mse_loss(torch.sigmoid(fake_logits_class), gen_label)
+            G_class_loss = errD_class + uncond_errD_class
             # CAにおける損失
+            G_TF_loss = errD_fake + uncond_errD_fake
             G_loss = G_TF_loss + G_class_loss + G_ca_loss
         else:
+            G_TF_loss = errD_fake + uncond_errD_fake
             G_loss = G_TF_loss + G_ca_loss
             G_class_loss = torch.tensor([0])
         G_optimizer.zero_grad()
@@ -94,22 +112,39 @@ def train(param):
 
         #training Discriminator
         #Discriminatorに本物画像を入れて順伝播⇒Loss計算
-        D_real_TF, D_real_class = D_model(real_img, char_class_oh)
-        # 生成用のラベル
-        gen_label = F.sigmoid(D_real_class.detach())
-        D_real_loss = -torch.mean(D_real_TF)
-        fake_img, _, _ = G_model(z, char_class_oh, gen_label)
-        D_fake_TF = D_model(fake_img.detach(), char_class_oh)[0]
-        D_fake_loss = torch.mean(D_fake_TF)
-        gp_loss = gradient_penalty(D_model, real_img.data, fake_img.data, char_class_oh, real_img.shape[0])
-        loss_drift = (D_real_TF ** 2).mean()
+        # 生成用の成約を取得
+        real_features = D_model(real_img, char_class_oh)
+        uncond_real_logits_TF, uncond_real_logits_class = nn.parallel.data_parallel(D_model.module.get_uncond_logits, (real_features))
+        gen_label = F.sigmoid(uncond_real_logits_class.detach())
+        #画像を生成
+        fake_img, mu, logvar = G_model(z, char_class_oh, gen_label)
+        #画像から特徴抽出
+        fake_features = D_model(fake_img.detach(), char_class_oh)
+        # 画像を識別(cond)
+        real_logits_TF, real_logits_class = nn.parallel.data_parallel(D_model.module.get_cond_logits, (real_features, mu))
+        fake_logits_TF, _ = nn.parallel.data_parallel(D_model.module.get_cond_logits, (fake_features, mu))
+        # 異なるペアで識別
+        wrong_logits_TF, wrong_logits_class = nn.parallel.data_parallel(D_model.module.get_cond_logits, (real_features[:batch_len-1], mu[1:]))
+        # 画像を識別(uncond)
+        uncond_fake_logits_TF, uncond_fake_logits_class = nn.parallel.data_parallel(D_model.module.get_uncond_logits, (fake_features))
+        #condにおける損失
+        errD_fake = criterion(fake_logits_TF, fake_labels)
+        errD_real = criterion(real_logits_TF, real_labels)
+        errD_wrong = criterion(wrong_logits_TF, fake_labels[1:])
+        errD_class = bce_loss(torch.sigmoid(real_logits_class), labels_oh)
+        errD_class_wrong = bce_loss(torch.sigmoid(wrong_logits_class), labels_oh[1:])
+        # ここからuncondの損失を計算
+        uncond_errD_real = criterion(uncond_real_logits_TF, real_labels)
+        uncond_errD_fake = criterion(uncond_fake_logits_TF, fake_labels)
+        uncond_errD_class = bce_loss(torch.sigmoid(uncond_real_logits_class), labels_oh)
         #Wasserstein lossの計算
-        D_TF_loss = D_fake_loss + D_real_loss + 10 * gp_loss
+        D_TF_loss = ((errD_real + uncond_errD_real) / 2. +
+                    (errD_fake + errD_wrong + uncond_errD_fake) / 3.)
         # 印象語分類のロス
-        D_class_loss = bce_loss(D_real_class, labels_oh)
+        D_class_loss = (errD_class + uncond_errD_class + errD_class_wrong) / 3.
         #印象語分類のmAP
-        C_mAP = mean_average_precision(torch.sigmoid(D_real_class), labels_oh)[1]
-        D_loss = D_TF_loss + D_class_loss + 0.001 * loss_drift
+        C_mAP = mean_average_precision(torch.sigmoid(real_logits_class), labels_oh)[1]
+        D_loss = D_TF_loss + D_class_loss
         D_optimizer.zero_grad()
         D_loss.backward()
         D_optimizer.step()
@@ -117,8 +152,8 @@ def train(param):
         D_running_cl_loss += D_class_loss.item()
         class_mAP.append(C_mAP)
         ##caliculate accuracy
-        real_pred = 1 * (torch.sigmoid(D_real_TF) > 0.5).detach().cpu()
-        fake_pred = 1 * (torch.sigmoid(D_fake_TF) > 0.5).detach().cpu()
+        real_pred = 1 * (torch.sigmoid(real_logits_TF) > 0.5).detach().cpu()
+        fake_pred = 1 * (torch.sigmoid(fake_logits_TF) > 0.5).detach().cpu()
         real_TF = torch.ones(real_pred.size(0))
         fake_TF = torch.zeros(fake_pred.size(0))
         r_acc = (real_pred == real_TF).float().sum().item()/len(real_pred)

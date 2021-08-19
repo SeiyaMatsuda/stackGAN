@@ -21,6 +21,41 @@ def upBlock(in_planes, out_planes):
         nn.ReLU(True))
     return block
 
+class D_GET_LOGITS(nn.Module):
+    def __init__(self, ndf, nef, imp_dim, bcondition=True):
+        super(D_GET_LOGITS, self).__init__()
+        self.df_dim = ndf
+        self.ef_dim = nef
+        self.imp_dim = imp_dim
+        self.bcondition = bcondition
+        if bcondition:
+            self.outlogits = nn.Sequential(
+                conv3x3(ndf * 4 + nef, ndf * 4),
+                nn.BatchNorm2d(ndf * 4),
+                nn.LeakyReLU(0.2, inplace=True))
+        self.TF_layer = nn.Sequential(
+            nn.Conv2d(ndf * 4, 1, kernel_size=4, stride=4),
+            nn.Sigmoid()
+            )
+        self.imp_layer = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(ndf * 4 * 4 * 4, self.imp_dim))
+
+    def forward(self, h_code, c_code=None):
+        # conditioning output
+        if self.bcondition and c_code is not None:
+            c_code = c_code.view(-1, self.ef_dim, 1, 1)
+            c_code = c_code.repeat(1, 1, 4, 4)
+            # state size (ngf+egf) x 4 x 4
+            h_c_code = torch.cat((h_code, c_code), 1)
+            h_c_code = self.outlogits(h_c_code)
+        else:
+            h_c_code = h_code
+
+        x_TF = self.TF_layer(h_c_code)
+        x_imp = self.imp_layer(h_c_code)
+        return torch.squeeze(x_TF),  torch.squeeze(x_imp)
+
 def weights_init(m):
     classname = m.__class__.__name__
     if classname.find('Conv') != -1:
@@ -108,11 +143,12 @@ class STAGE1_G(nn.Module):
 
 
 class STAGE1_D(nn.Module):
-    def __init__(self, imp_num=1574, char_num=26, device=torch.device("cuda")):
+    def __init__(self, imp_num=1574, char_num=26,  num_dimension=300, device=torch.device("cuda")):
         super(STAGE1_D, self).__init__()
         self.df_dim = 64
         self.char_dim = char_num
         self.imp_dim = imp_num
+        self.c_dim = num_dimension
         self.ef_dim = self.char_dim
         self.define_module()
 
@@ -135,22 +171,15 @@ class STAGE1_D(nn.Module):
             # state size (ndf * 4) x 4 x 4)
         )
 
-        self.layer_TF = nn.Sequential(
-            nn.Conv2d(ndf * 4, 1, kernel_size=4, stride=4)
-        )
+        self.get_cond_logits = D_GET_LOGITS(ndf, self.c_dim, self.imp_dim, bcondition=True)
+        self.get_uncond_logits = D_GET_LOGITS(ndf, self.c_dim, self.imp_dim, bcondition=False)
 
-        self.layer_imp = nn.Sequential(
-            nn.Flatten(),
-            nn.Linear(ndf * 4 * 4 * 4, self.imp_dim))
 
 
     def forward(self, image, y_char):
         y_char = y_char.view(y_char.size(0), y_char.size(1), 1, 1).repeat(1, 1, image.size(2), image.size(3))
         img_embedding = self.encode_img(torch.cat((image, y_char), axis=1))
-        x_TF = self.layer_TF(img_embedding)
-        x_imp = self.layer_imp(img_embedding)
-
-        return torch.squeeze(x_TF),  torch.squeeze(x_imp)
+        return img_embedding
 
 # ############# Networks for stageII GAN #############
 class STAGE2_G(nn.Module):
@@ -205,11 +234,12 @@ class STAGE2_G(nn.Module):
             nn.Tanh())
 
     def forward(self, noise, y_char, y_imp):
+        noise1, noise2 = torch.split(noise, [self.z_dim, self.c_dim], dim=1)
         stage1_img, _, _ = self.STAGE1_G(noise, y_char, y_imp)
         stage1_img = stage1_img.detach()
         encoded_img = self.encoder(stage1_img)
         c_code= self.emb_layer(y_imp)
-        c_code, mu, logvar = self.CA_layer(c_code)
+        c_code, mu, logvar = self.CA_layer(c_code, noise2)
         c_code = c_code.view(-1, self.c_dim, 1, 1)
         c_code = c_code.repeat(1, 1, 16, 16)
 
@@ -225,10 +255,11 @@ class STAGE2_G(nn.Module):
 
 
 class STAGE2_D(nn.Module):
-    def __init__(self, imp_num=1574, char_num=26, device=torch.device("cuda")):
+    def __init__(self, imp_num=1574, char_num=26, num_dimension=300, device=torch.device("cuda")):
         super(STAGE2_D, self).__init__()
         self.df_dim = 64
         self.char_dim = char_num
+        self.c_dim = num_dimension
         self.ef_dim = self.char_dim
         self.imp_dim = imp_num
         self.define_module()
@@ -253,19 +284,18 @@ class STAGE2_D(nn.Module):
             nn.Conv2d(ndf * 4, ndf * 8, 4, 2, 1, bias=False),
             nn.BatchNorm2d(ndf * 8),
             nn.Dropout2d(0.5),
-            nn.LeakyReLU(0.2, inplace=True)
+            nn.LeakyReLU(0.2, inplace=True),
             # state size (ndf * 8) x 4 x 4)
+            conv3x3(ndf * 8, ndf * 4),
+            nn.BatchNorm2d(ndf * 4),
+            nn.Dropout2d(0.5),
+            nn.LeakyReLU(0.2, inplace=True),  #
         )
-        self.layer_TF = nn.Sequential(
-            nn.Conv2d(ndf * 8, 1, kernel_size=4, stride=4))
 
-        self.layer_imp = nn.Sequential(
-            nn.Flatten(),
-            nn.Linear(ndf * 8 * 4 * 4, self.imp_dim))
+        self.get_cond_logits = D_GET_LOGITS(ndf, self.c_dim, self.imp_dim, bcondition=True)
+        self.get_uncond_logits = D_GET_LOGITS(ndf, self.c_dim, self.imp_dim, bcondition=False)
 
     def forward(self, image, y_char):
         y_char = y_char.view(y_char.size(0), y_char.size(1), 1, 1).repeat(1, 1, image.size(2), image.size(3))
         img_embedding = self.encode_img(torch.cat((image, y_char), axis=1))
-        x_TF = self.layer_TF(img_embedding)
-        x_imp = self.layer_imp(img_embedding)
-        return torch.squeeze(x_TF),  torch.squeeze(x_imp)
+        return img_embedding
