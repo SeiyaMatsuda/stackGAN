@@ -7,12 +7,12 @@ import tqdm
 from torch.autograd import Variable
 import torch.autograd as autograd
 from dataset import *
-def gradient_penalty(netD, real, fake, char_class_oh, batch_size, gamma=1):
+def gradient_penalty(netD, real, fake, char_class_oh, cond, batch_size, gamma=1):
     device = real.device
     alpha = torch.rand(batch_size, 1, 1, 1, requires_grad=True).to(device)
     x = alpha*real + (1-alpha)*fake
     d_ = netD.forward(x, char_class_oh)
-    d_ =  nn.parallel.data_parallel(netD.module.get_uncond_logits, (d_))[0]
+    d_ =  nn.parallel.data_parallel(netD.module.get_cond_logits, (d_, cond))[0]
     g = torch.autograd.grad(outputs=d_, inputs=x,
                             grad_outputs=torch.ones(d_.shape).to(device),
                             create_graph=True, retain_graph=True, only_inputs=True)[0]
@@ -81,9 +81,10 @@ def train(param):
         # 画像の特徴を抽出
         fake_features = D_model(fake_img, char_class_oh)
         # 画像を識別(uncond, cond)
-        uncond_fake_logits_TF, uncond_fake_logits_class = nn.parallel.data_parallel(D_model.module.get_uncond_logits, (fake_features))
+        fake_logits_TF, _ = nn.parallel.data_parallel(D_model.module.get_cond_logits, (fake_features, mu))
+        _, uncond_fake_logits_class = nn.parallel.data_parallel(D_model.module.get_uncond_logits, (fake_features))
         #condの損失を計算
-        errD_fake = -torch.mean(uncond_fake_logits_TF)
+        errD_fake = -torch.mean(fake_logits_TF)
         # mu, logvarの過学習を抑制する損失
         G_ca_loss = ca_loss(mu, logvar)
         # 印象語分類のロス
@@ -91,8 +92,7 @@ def train(param):
         G_class_loss = uncond_errD_class
         G_TF_loss = errD_fake
         G_loss = G_TF_loss + G_ca_loss
-        if iter>=1000:
-            G_loss = G_loss + G_class_loss
+        G_loss = G_loss + G_class_loss
         G_optimizer.zero_grad()
         G_loss.backward()
         G_optimizer.step()
@@ -110,13 +110,14 @@ def train(param):
         #画像から特徴抽出
         fake_features = D_model(fake_img.detach(), char_class_oh)
         # 画像を識別(cond)
-        uncond_fake_logits_TF, _ = nn.parallel.data_parallel(D_model.module.get_uncond_logits, (fake_features, mu))
+        real_logits_TF, _ = nn.parallel.data_parallel(D_model.module.get_cond_logits, (real_features, mu))
+        fake_logits_TF, _ = nn.parallel.data_parallel(D_model.module.get_cond_logits, (fake_features, mu))
         #condにおける損失
-        errD_fake = torch.mean(uncond_fake_logits_TF)
-        errD_real = -torch.mean(uncond_real_logits_TF)
+        errD_fake = torch.mean(fake_logits_TF)
+        errD_real = -torch.mean(real_logits_TF)
         # ここからuncondの損失を計算
         errD_class = bce_loss(torch.sigmoid(uncond_real_logits_class), labels_oh)
-        gp_loss = gradient_penalty(D_model, real_img.data, fake_img.data, char_class_oh, real_img.shape[0])
+        gp_loss = gradient_penalty(D_model, real_img.data, fake_img.data, char_class_oh, mu, real_img.shape[0])
         #Wasserstein lossの計算
         D_TF_loss = errD_real + errD_fake + gp_loss * 10
         # 印象語分類のロス
@@ -131,8 +132,8 @@ def train(param):
         D_running_cl_loss += D_class_loss.item()
         class_mAP.append(C_mAP)
         ##caliculate accuracy
-        real_pred = 1 * (uncond_real_logits_TF > 0.5).detach().cpu()
-        fake_pred = 1 * (uncond_fake_logits_TF > 0.5).detach().cpu()
+        real_pred = 1 * (torch.sigmoid(real_logits_TF) > 0.5).detach().cpu()
+        fake_pred = 1 * (torch.sigmoid(fake_logits_TF) > 0.5).detach().cpu()
         real_TF = torch.ones(real_pred.size(0))
         fake_TF = torch.zeros(fake_pred.size(0))
         r_acc = (real_pred == real_TF).float().sum().item()/len(real_pred)

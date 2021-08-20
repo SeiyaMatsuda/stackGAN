@@ -20,7 +20,7 @@ class Conditioning_Augumentation(nn.Module):
     def reparametrize(self, mu, logvar, eps):
         std = logvar.mul(0.5).exp_()
         eps = Variable(eps)
-        return eps.mul(std).add_(mu)
+        return 0.01 * eps.mul(std) + mu
 
     def forward(self, text_embedding, eps):
         mu, logvar = self.encode(text_embedding)
