@@ -31,6 +31,7 @@ class D_GET_LOGITS(nn.Module):
         if bcondition:
             self.outlogits = nn.Sequential(
                 conv3x3(ndf * 4 + nef, ndf * 4),
+                nn.Dropout2d(0.5),
                 nn.BatchNorm2d(ndf * 4),
                 nn.LeakyReLU(0.2, inplace=True))
         self.TF_layer = nn.Sequential(
@@ -91,12 +92,13 @@ class ResBlock(nn.Module):
 
 # ############# Networks for stageI GAN #############
 class STAGE1_G(nn.Module):
-    def __init__(self, weight, latent_size=100, char_num=26, num_dimension=300, attention=False, device=torch.device("cuda")):
+    def __init__(self, weight, latent_size=100, char_num=26, w2v_dimension=300, num_dimension=300, attention=False, device=torch.device("cuda")):
         super(STAGE1_G, self).__init__()
         self.char_dim = char_num
         self.gf_dim = 128 * 8
         self.ninput = latent_size + num_dimension + self.char_dim
         self.c_dim = num_dimension
+        self.w2v_dim = w2v_dimension
         self.z_dim = latent_size
         self.attention = attention
         self.weight = weight
@@ -108,7 +110,7 @@ class STAGE1_G(nn.Module):
         ninput = self.ninput
         # TEXT.DIMENSION -> GAN.CONDITION_DIM
         self.emb_layer = ImpEmbedding(self.weight, deepsets=False, device=self.device)
-        self.CA_layer = Conditioning_Augumentation(300, self.c_dim, device=self.device)
+        self.CA_layer = Conditioning_Augumentation(self.w2v_dim, self.c_dim, device=self.device)
 
         self.fc =  nn.Sequential(
             nn.Linear(ninput, ngf * 4 * 4, bias=False),
@@ -183,10 +185,11 @@ class STAGE1_D(nn.Module):
 
 # ############# Networks for stageII GAN #############
 class STAGE2_G(nn.Module):
-    def __init__(self, STAGE1_G, weight, latent_size=100, char_num=26, num_dimension=300, attention=False, device=torch.device("cuda")):
+    def __init__(self, STAGE1_G, weight, latent_size=100, char_num=26, w2v_dimension = 300, num_dimension=300, attention=False, device=torch.device("cuda")):
         super(STAGE2_G, self).__init__()
         self.char_dim = char_num
         self.gf_dim = 128
+        self.w2v_dim = w2v_dimension
         self.c_dim = num_dimension
         self.z_dim = latent_size
         self.r_num = 4
@@ -210,7 +213,7 @@ class STAGE2_G(nn.Module):
         ngf = self.gf_dim
         # TEXT.DIMENSION -> GAN.CONDITION_DIM
         self.emb_layer = ImpEmbedding(self.weight, deepsets=False, device=self.device)
-        self.CA_layer = Conditioning_Augumentation(300, self.c_dim, device=self.device)
+        self.CA_layer = Conditioning_Augumentation(self.w2v_dim, self.c_dim, device=self.device)
 
         # ngf x 32 x 32--> 2ngf ✕ 16 ✕ 16
         self.encoder = nn.Sequential(
