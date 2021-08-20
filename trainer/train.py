@@ -116,7 +116,7 @@ def train(param):
         errD_real = -torch.mean(uncond_real_logits_TF)
         # ここからuncondの損失を計算
         errD_class = bce_loss(torch.sigmoid(uncond_real_logits_class), labels_oh)
-        gp_loss = gradient_penalty(D_model, real_img.data, fake_img.data, char_class_oh, mu, real_img.shape[0])
+        gp_loss = gradient_penalty(D_model, real_img.data, fake_img.data, char_class_oh, real_img.shape[0])
         #Wasserstein lossの計算
         D_TF_loss = errD_real + errD_fake + gp_loss * 10
         # 印象語分類のロス
