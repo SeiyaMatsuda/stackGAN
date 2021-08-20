@@ -93,14 +93,13 @@ def train(param):
         G_ca_loss = ca_loss(mu, logvar)
         # 特定iter以上でクラス分類損失を計算
         # 印象語分類のロス
-        errD_class = mse_loss(torch.sigmoid(fake_logits_class), gen_label)
+        # errD_class = mse_loss(torch.sigmoid(fake_logits_class), gen_label)
         uncond_errD_class = mse_loss(torch.sigmoid(fake_logits_class), gen_label)
-        G_class_loss = errD_class + uncond_errD_class
+        G_class_loss = uncond_errD_class
         G_TF_loss = errD_fake + uncond_errD_fake
+        G_loss = G_TF_loss + G_ca_loss
         if iter>=20000:
-            G_loss = G_TF_loss + G_class_loss + G_ca_loss
-        else:
-            G_loss = G_TF_loss + G_ca_loss
+            G_loss = G_loss + G_class_loss
         G_optimizer.zero_grad()
         G_loss.backward()
         G_optimizer.step()
@@ -128,7 +127,7 @@ def train(param):
         errD_fake = criterion(fake_logits_TF, fake_labels)
         errD_real = criterion(real_logits_TF, real_labels)
         errD_wrong = criterion(wrong_logits_TF, fake_labels[1:])
-        errD_class = bce_loss(torch.sigmoid(real_logits_class), labels_oh)
+        # errD_class = bce_loss(torch.sigmoid(real_logits_class), labels_oh)
         errD_class_wrong = bce_loss(torch.sigmoid(wrong_logits_class), labels_oh[1:])
         # ここからuncondの損失を計算
         uncond_errD_real = criterion(uncond_real_logits_TF, real_labels)
@@ -138,7 +137,8 @@ def train(param):
         D_TF_loss = ((errD_real + uncond_errD_real) / 2. +
                     (errD_fake + errD_wrong + uncond_errD_fake) / 3.)
         # 印象語分類のロス
-        D_class_loss = (errD_class + uncond_errD_class + errD_class_wrong) / 3.
+        # D_class_loss = (errD_class + uncond_errD_class + errD_class_wrong) / 3
+        D_class_loss = (uncond_errD_class + errD_class_wrong) / 2.
         #印象語分類のmAP
         C_mAP = mean_average_precision(torch.sigmoid(real_logits_class), labels_oh)[1]
         D_loss = D_TF_loss + D_class_loss

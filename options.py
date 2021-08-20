@@ -11,7 +11,7 @@ def get_parser():
     parser.add_argument('--emb', type=str, choices=["w2v", "one-hot"], default='w2v')
     parser.add_argument('--img_size', type=int, default=64)
     parser.add_argument('--w2v_dim', type=int, default=300)
-    parser.add_argument('--c_dim', type=int, default=128)
+    parser.add_argument('--c_dim', type=int, default=100)
     parser.add_argument('--batch_size', type=int, default=512)
     parser.add_argument('--num_epochs', type=int, default=60)
     parser.add_argument('--latent_size', type=int, default=100)
