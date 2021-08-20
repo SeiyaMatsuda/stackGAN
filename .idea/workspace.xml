@@ -348,7 +348,14 @@
       <option name="project" value="LOCAL" />
       <updated>1629474688943</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="StackGANをTACGANに変更&#10;*CPGAN機構を導入&#10;➡G_class_loss :  &#10;  Discriminator Dropout2d&#10;  epoch=120&#10;  mAPの計算を追加&#10;  accuracyの計算を修正&#10;  CAlayerを追加（ノイズ 0.01）&#10;  層構造を変更&#10;  Discdiriminatorに埋め込み情報を与える&#10;  lossはwgan-gp">
+      <created>1629478213346</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1629478213346</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -395,13 +402,14 @@
     <MESSAGE value="StackGANをTACGANに変更&#10;*CPGAN機構を導入&#10;➡G_class_loss:iter&gt;5000 λ=1&#10;  Discriminator Dropout2d&#10;  epoch=120&#10;  mAPの計算を追加&#10;  accuracyの計算を修正&#10;  CAlayerを追加&#10;  層構造を変更" />
     <MESSAGE value="StackGANをTACGANに変更&#10;*CPGAN機構を導入&#10;➡G_class_loss:iter&gt;5000 λ=1&#10;  Discriminator Dropout2d&#10;  epoch=120&#10;  mAPの計算を追加&#10;  accuracyの計算を修正&#10;  CAlayerを追加&#10;  層構造を変更&#10;  lossはwgan-gp" />
     <MESSAGE value="StackGANをTACGANに変更&#10;*CPGAN機構を導入&#10;➡G_class_loss:iter&gt;5000 λ=1&#10;  Discriminator Dropout2d&#10;  epoch=120&#10;  mAPの計算を追加&#10;  accuracyの計算を修正&#10;  CAlayerを追加&#10;  層構造を変更&#10;  Discdiriminatorに埋め込み情報は与えない&#10;  lossはwgan-gp" />
-    <option name="LAST_COMMIT_MESSAGE" value="StackGANをTACGANに変更&#10;*CPGAN機構を導入&#10;➡G_class_loss:iter&gt;5000 λ=1&#10;  Discriminator Dropout2d&#10;  epoch=120&#10;  mAPの計算を追加&#10;  accuracyの計算を修正&#10;  CAlayerを追加&#10;  層構造を変更&#10;  Discdiriminatorに埋め込み情報は与えない&#10;  lossはwgan-gp" />
+    <MESSAGE value="StackGANをTACGANに変更&#10;*CPGAN機構を導入&#10;➡G_class_loss :  &#10;  Discriminator Dropout2d&#10;  epoch=120&#10;  mAPの計算を追加&#10;  accuracyの計算を修正&#10;  CAlayerを追加（ノイズ 0.01）&#10;  層構造を変更&#10;  Discdiriminatorに埋め込み情報を与える&#10;  lossはwgan-gp" />
+    <option name="LAST_COMMIT_MESSAGE" value="StackGANをTACGANに変更&#10;*CPGAN機構を導入&#10;➡G_class_loss :  &#10;  Discriminator Dropout2d&#10;  epoch=120&#10;  mAPの計算を追加&#10;  accuracyの計算を修正&#10;  CAlayerを追加（ノイズ 0.01）&#10;  層構造を変更&#10;  Discdiriminatorに埋め込み情報を与える&#10;  lossはwgan-gp" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2635" y="94" width="824" height="986" key="CommitChangelistDialog2" timestamp="1629474688907">
+    <state x="2635" y="94" width="824" height="986" key="CommitChangelistDialog2" timestamp="1629478213316">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2635" y="94" width="824" height="986" key="CommitChangelistDialog2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1629474688907" />
+    <state x="2635" y="94" width="824" height="986" key="CommitChangelistDialog2/1920.0.1920.1080/3840.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1629478213316" />
     <state x="2148" y="137" width="1648" height="853" key="DiffContextDialog" timestamp="1629475520300">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
