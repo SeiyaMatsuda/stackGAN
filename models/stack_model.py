@@ -36,7 +36,6 @@ class D_GET_LOGITS(nn.Module):
                 nn.LeakyReLU(0.2, inplace=True))
         self.TF_layer = nn.Sequential(
             nn.Conv2d(ndf * 4, 1, kernel_size=4, stride=4),
-            nn.Sigmoid()
             )
         self.imp_layer = nn.Sequential(
             nn.Flatten(),
